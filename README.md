@@ -257,12 +257,6 @@ Copy example init:
 
     install -Dm0755 /usr/share/doc/river/examples/init -t ~/.config/river
 
-```{ash}
-apk add bemenu waylock brightnessctl
-apk add wlr-randr
-apk add thunar thunar-archive-plugin
-```
-
 Copy the script for starting river to ``/usr/local/bin/riverrun``and execute it by typing ``riverrun``.
 
 ### Statusbar
@@ -309,33 +303,20 @@ Simple login manager to automatically start River
 
 <https://man.sr.ht/~kennylevinsen/greetd/#how-to-set-xdg_session_typewayland>
 
-## Notes
+### File manager
 
-git
+```bash
+apk add thunar thunar-archive-plugin
+apk add thunar-volman thunar-media-tags-plugin
+apk add font-manager-thunar
+apk add gvfs sshfs gvfs-smb gvfs-afc gvfs-gphoto2 gvfs-mtp gvfs-nfs
+```
 
-    apk add git tig
+Terminal file manager
 
-    git config --global user.name
-    git config --global user.email
-
-    apk add code-oss firefox alacritty
-
-### Services
-
-<https://docs.alpinelinux.org/user-handbook/0.1a/Working/openrc.html>
-
-    rc-update show -v
-
-deactivate middle mouse button paste?
-
-apk add libinput
-libinput list-devices
-riverctl list-inputs
-
-### Tex
-
-apk add texlive-full
-apk add biber
+```bash
+apk add lf
+```
 
 ### Audio
 
@@ -350,7 +331,7 @@ apk add biber
     apk add pamixer
     apk add superd
 
-superd is a process supervisor that can be used with openRC because openRC does not have the concept of user services.
+[superd](https://sr.ht/~craftyguy/superd/) is a process supervisor that can be used with openRC because openRC does not have the concept of user services.
 
 Get superd services from <https://git.sr.ht/~whynothugo/superd-services> and copy them to ``/etc/superd/services``
 
@@ -358,25 +339,18 @@ Started in riverrun
 
     wpctl status
 
+Realtime sheduling
+
+    apk add rtkit
+    addgroup <user> rtkit
+
+
 #### Notes
 
 ```bash
-sudo pacman -Sy realtime-privileges
-sudo gpasswd -a <user> realtime
 sudo pacman -Sy pamixer # command line audio mixer
 sudo pacman -Sy playerctl
 ```
-
-```bash
-sudo nvim /etc/security/limits.d/<user>.conf
-```
-
-```text
-<user> soft memlock 64
-<user> hard memlock 128
-```
-
-According to Mac mini (Mid 2010) - Technical Specifications <https://support.apple.com/kb/SP585?viewlocale=en_US&locale=de_DE> outputing audio via Mini DisplayPort is not possible but it should work via HDMI (max 1920x1200). Can be confirmed by:
 
 ```bash
 pactl list cards
@@ -404,11 +378,15 @@ Download plugins from <https://github.com/wwmm/easyeffects/wiki/Community-Preset
 curl -O --output-dir ~/.config/easyeffects/output/ "https://raw.githubusercontent.com/Digitalone1/EasyEffects-Presets/master/LoudnessEqualizer.json"
 ```
 
+### Application launcher
+
+    apk add bemenu
 
 ### Resolution and scale
 
-```bash
-yay -Sy wlr-randr
+```{ash}
+apk add waylock brightnessctl
+apk add wlr-randr
 ```
 
 Run wlr-randr to find outputs
@@ -417,10 +395,9 @@ Run wlr-randr to find outputs
 wlr-randr --output <<output>> --scale 2
 ```
 
-Brightness control:
+    apk add wlsunset
 
-brightnessctl
-
+does not work
 
 ### System Monitoring
 
@@ -449,7 +426,7 @@ Answer yes for writing to ``/etc/modules-load.d/lm_sensors.conf``
 
 ### Bluetooth
 
-apk add bluez
+apk add bluez pipewire-spa-bluez
 apk add bluetuith
 modprobe btusb
 rc-update add bluetooth
@@ -461,15 +438,10 @@ bluetuith
 
 ### Other
 
-    apk add wlsunset
-
-does not work
-
 ```{ash}
 apk add intel-ucode
 apk add linux-pam
 
-apk add lf
 apk add neovim
 ```
 
@@ -514,29 +486,15 @@ More information on <https://support.mozilla.org/en-US/kb/profiles-where-firefox
 
     doas nvim /etc/security/faillock.conf
 
+Adblock add-on
+Edit start page
+Edit menu bar
+
 ### Apple Remote (IR)
 
 <https://lwn.net/Articles/759188/>
 
 ### Misc
-
-qt5-wayland
-qt6-wayland
-
-
-File manager
-
-```bash
-sudo pacman -Sy thunar thunar-volman thunar-archive-plugin thunar-media-tags-plugin
-sudo pacman -Sy gvfs sshfs gvfs-smb gvfs-afc gvfs-gphoto2 gvfs-mtp gvfs-nfs
-```
-
-Terminal file manager
-
-```bash
-sudo pacman -Sy lf
-```
-
 
 ```bash
 sudo pacman -Sy chromium
@@ -623,8 +581,6 @@ nvim start_windows_98
 
 sudo chmod +x start_windows_98
 
-
-
 ### TV
 
 https://wiki.archlinux.org/title/DVB-T
@@ -647,9 +603,6 @@ dvbtraffic
 
 ## Notes
 
-Nouveau driver installation
-mesa
-
 Notifications
 mako
 
@@ -660,13 +613,6 @@ kanshi for creating profiles
 sudo pacman -Sy kanshi
 
 https://sr.ht/~emersion/kanshi/
-
-
-Firefox
-Adblock add-on <https://addons.mozilla.org/firefox/downloads/file/4201108/adblocker_ultimate-3.8.14.xpi>
-Edit start page
-Edit symbols
-
 
 ```bash
 pacman -Sy gimp inkscape
@@ -681,8 +627,7 @@ pacman -Sy wine
 
 thunderbird
 
-
-### XFCE
+### XFCE themes
 
 Install Fluent theme
 <https://github.com/vinceliuice/Fluent-gtk-theme>
@@ -700,3 +645,29 @@ git clone --depth=1 https://github.com/vinceliuice/Fluent-icon-theme.git /tmp/Fl
 chmod +x /tmp/Fluent_icons_tmp/install.sh
 /tmp/Fluent_icons_tmp/install.sh -a -d /usr/share/icons/ -r
 ```
+
+### Tex
+
+apk add texlive-full
+apk add biber
+
+### git
+
+    apk add git tig
+
+    git config --global user.name
+    git config --global user.email
+
+    apk add code-oss firefox alacritty
+
+### Services
+
+<https://docs.alpinelinux.org/user-handbook/0.1a/Working/openrc.html>
+
+    rc-update show -v
+
+deactivate middle mouse button paste?
+
+apk add libinput
+libinput list-devices
+riverctl list-inputs

@@ -181,5 +181,5 @@ riverctl input *TouchPad* natural scroll enabled
 riverctl input *TouchPad* pointer-accel 0.5
 
 #riverctl input *TrackPoint* middle-emulation disabled
-riverctl input *TrackPoint* pointer-accel 0.5
+riverctl input *TrackPoint* pointer-accel 0.25
 riverctl input *TrackPoint* accel-profile adaptive
