@@ -1,0 +1,12 @@
+[Security]
+EAP-Method=PEAP
+EAP-Identity=anonymous@uni-muenster.de
+EAP-PEAP-CACert=/usr/local/share/ca-certificates/eduroam_ca.pem
+EAP-PEAP-ServerDomainMask=radius06.uni-muenster.de
+EAP-PEAP-Phase2-Method=MSCHAPV2
+EAP-PEAP-Phase2-Identity=<username>@uni-muenster.de
+EAP-PEAP-Phase2-Password=<password>
+
+[Settings]
+AutoConnect=true
+

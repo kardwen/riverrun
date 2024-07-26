@@ -1,0 +1,214 @@
+nerdfont: &nerdfont Symbols Nerd Font Mono:pixelsize=20
+gomono: &gomono GoMono Nerd Font Mono:pixelsize=16
+focused: &focused {stack: [{background: {color: 00000000}}, {underline: {size: 3, color: 66ccffff}}]}
+col-inv: &col-inv {foreground: a89984ff}
+
+bar:
+  font: *gomono
+  height: 24
+  location: top
+  left-margin: 10
+  right-spacing: 8
+  right-margin: 10
+  border:
+    top-margin: 4
+    left-margin: 4
+    right-margin: 4
+    color: d8dee900 
+  background: 000000aa
+  foreground: ffffffff
+
+  left:
+  - river:
+      anchors:
+      - base: &river_base
+          margin: 10
+          text: "{id}"
+          on-click: sh -c "riverctl set-focused-tags $((1 << ({id} - 1)))"
+
+      # title:
+      #   string:
+      #     margin: 6
+      #     text: "{title}"
+
+      content:
+        map:
+          conditions:
+            # Don't display any tags higher or equal to 10
+            id >= 10: { string: { text: "" }} 
+            state == focused:
+              { string: { <<: [*river_base, deco: *focused] }}
+            state == unfocused:
+              string:
+                <<: *river_base
+            state == invisible:
+              map:
+                conditions:
+                  occupied:
+                    string:
+                      <<: *river_base
+                      deco:
+                        stack:
+                        - underline: { size: 3, color: 00000000 }
+                  ~occupied:
+                    map:
+                      deco: {background: {color: 00000000 }}
+                      default:
+                        empty: {}
+                      conditions:
+                        # 9 default tags that are shown unless occupied
+                        id == 1: { string: { <<: [*river_base, *col-inv] }}
+                        id == 2: { string: { <<: [*river_base , *col-inv] }}
+                        id == 3: { string: { <<: [*river_base , *col-inv] }}
+                        id == 4: { string: { <<: [*river_base , *col-inv] }}
+                        id == 5: { string: { <<: [*river_base , *col-inv] }}
+                        id == 6: { string: { <<: [*river_base , *col-inv] }}
+                        id == 7: { string: { <<: [*river_base , *col-inv] }}
+                        id == 8: { string: { <<: [*river_base , *col-inv] }}
+                        id == 9: { string: { <<: [*river_base , *col-inv] }}
+  center:
+    - script:
+        path: ~/.config/yambar/scripts/dater.sh
+        args: []
+        content:
+            string: 
+                margin: 0
+                text: "{date}"
+                on-click: sh -c "~/.config/yambar/scripts/calendar.sh show"
+    - clock:
+        content:
+          - string:
+                margin: 0
+                text: "{time}"
+
+  right:
+    - pipewire:
+        anchors:
+          volume: &volume
+            conditions:
+              muted:
+                string:
+                  text: "0%"
+                  on-click:
+                    middle: sh -c "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+              ~muted:
+                string:
+                  text: "{cubic_volume}%"
+                  on-click:
+                    left: sh -c "pactl set-sink-volume @DEFAULT_SINK@ -2%"
+                    middle: sh -c "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+                    right: sh -c "pactl set-sink-volume @DEFAULT_SINK@ +2%"
+        content:
+          list:
+            items:
+              - map:
+                  conditions:
+                    type == "sink":
+                      map:
+                        conditions:
+                          icon == "audio-headset-bluetooth":
+                            string: {text: "󰋋", font: *nerdfont}
+                          muted: {string: {text: "󰝟", font: *nerdfont}}
+                        default:
+                          - ramp:
+                              tag: cubic_volume
+                              items:
+                                - string: {text: "󰕿", font: *nerdfont}
+                                - string: {text: "󰖀", font: *nerdfont}
+                                - string: {text: "󰕾", font: *nerdfont}
+                    type == "source":
+                      - string: {text: "", font: *nerdfont, left-margin: 5}
+              - map:
+                  <<: *volume
+    - backlight:
+        name: acpi_video0
+        content: [ string: {text: , font: *nerdfont}, string: {text: "{percent}%", on-click: { left: sh -c "brightnessctl -s > ~/.cache/brightness s 5-", right: sh -c "brightnessctl -s > ~/.cache/brightness s +5"}}]
+    - network:
+        poll-interval: 1000
+        content:
+          map:
+            default: { empty: {} }
+            conditions:
+              name == wlan0:
+                map:
+                  default:
+                    {
+                      string: { text: , font: *nerdfont, foreground: ffffff66 },
+                    }
+                  conditions:
+                    state == down:
+                      {
+                        string:
+                          { text: , font: *nerdfont, foreground: ff0000ff },
+                      }
+                    state == up:
+                      map:
+                        default:
+                          - string: { text: , font: *nerdfont }
+                          # - string:
+                          #     {
+                          #       text: "{ssid} {dl-speed:mb}/{ul-speed:mb} Mb/s",
+                          #     }
+                        conditions:
+                          ipv4 == "":
+                            - string:
+                                {
+                                  text: ,
+                                  font: *nerdfont,
+                                  foreground: ffffff66,
+                                }
+                            # - string:
+                            #     {
+                            #       text: "{ssid} {dl-speed:mb}/{ul-speed:mb} Mb/s",
+                            #       foreground: ffffff66,
+                            #     }
+    - battery:
+        name: BAT0
+        poll-interval: 10000
+        anchors:
+          discharging: &discharging
+            list:
+              items:
+                - ramp:
+                    tag: capacity
+                    items:
+                      - string: {text: , foreground: ff0000ff, font: *nerdfont}
+                      - string: {text: , foreground: ffa600ff, font: *nerdfont}
+                      - string: {text: , font: *nerdfont}
+                      - string: {text: , font: *nerdfont}
+                      - string: {text: , font: *nerdfont}
+                      - string: {text: , font: *nerdfont}
+                      - string: {text: , font: *nerdfont}
+                      - string: {text: , font: *nerdfont}
+                      - string: {text: , font: *nerdfont}
+                      - string: {text: , foreground: ffffffff, font: *nerdfont}
+                - string: {text: "{capacity}%"}
+                # - string: {text: " {capacity}% {estimate}"}
+        content:
+          map:
+            conditions:
+              state == unknown:
+                <<: *discharging
+              state == discharging:
+                <<: *discharging
+              state == full:
+                - string: {text: , foreground: ffffffff, font: *nerdfont}
+                - string: {text: " {capacity}%"}
+              state == "not charging":
+                - string: {text: , foreground: ffffffff, font: *nerdfont}
+                - string: {text: " {capacity}%"}
+              state == charging:
+                - ramp:
+                    tag: capacity
+                    items:
+                      - string: {text:  , foreground: ff0000ff, font: *nerdfont}
+                      - string: {text:  , foreground: ffa600ff, font: *nerdfont}
+                      - string: {text:  , foreground: ffffffff, font: *nerdfont}
+                      - string: {text:  , foreground: ffffffff, font: *nerdfont}
+                      - string: {text:  , foreground: ffffffff, font: *nerdfont}
+                      - string: {text:  , foreground: ffffffff, font: *nerdfont}
+                      - string: {text:  , foreground: ffffffff, font: *nerdfont}
+                      - string: {text:  , foreground: ffffffff, font: *nerdfont}
+                      - string: {text:  , foreground: ffffffff, font: *nerdfont}
+                      - string: {text:  , foreground: ffffffff, font: *nerdfont}
+                - string: {text: " {capacity}%"}

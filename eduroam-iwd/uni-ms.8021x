@@ -1,0 +1,12 @@
+[Security]
+EAP-Method=TTLS
+EAP-Identity=wlan@uni-muenster.de
+EAP-TTLS-CACert=/usr/local/share/ca-certificates/eduroam_ca.pem
+EAP-TTLS-ServerDomainMask=radius06.uni-muenster.de
+EAP-TTLS-Phase2-Method=MSCHAPV2
+EAP-TTLS-Phase2-Identity=<username>@uni-muenster.de
+EAP-TTLS-Phase2-Password=<password>
+
+[Settings]
+AutoConnect=true
+
