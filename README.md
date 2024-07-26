@@ -350,13 +350,77 @@ apk add biber
     apk add pamixer
     apk add superd
 
+superd is a process supervisor that can be used with openRC because openRC does not have the concept of user services.
+
 Get superd services from <https://git.sr.ht/~whynothugo/superd-services> and copy them to ``/etc/superd/services``
 
-TODO this should be run automatically when starting the session
+Started in riverrun
 
-    exec superd
+    wpctl status
 
-    wpctl
+#### Notes
+
+```bash
+sudo pacman -Sy realtime-privileges
+sudo gpasswd -a <user> realtime
+sudo pacman -Sy pamixer # command line audio mixer
+sudo pacman -Sy playerctl
+```
+
+```bash
+sudo nvim /etc/security/limits.d/<user>.conf
+```
+
+```text
+<user> soft memlock 64
+<user> hard memlock 128
+```
+
+According to Mac mini (Mid 2010) - Technical Specifications <https://support.apple.com/kb/SP585?viewlocale=en_US&locale=de_DE> outputing audio via Mini DisplayPort is not possible but it should work via HDMI (max 1920x1200). Can be confirmed by:
+
+```bash
+pactl list cards
+```
+
+Mac sound
+<https://wiki.archlinux.org/title/IMac_Aluminum#The_imac7,1_model:>
+
+```bash
+nvim /etc/modprobe.d/sound.conf
+echo options snd-hda-intel model=mb31 > /etc/modprobe.d/sound.conf
+```
+
+Easy Effects
+
+```bash
+pacman -Sy easyeffects lsp-plugins
+```
+
+-> Settings -> Dark mode
+
+Download plugins from <https://github.com/wwmm/easyeffects/wiki/Community-Presets>
+
+```bash
+curl -O --output-dir ~/.config/easyeffects/output/ "https://raw.githubusercontent.com/Digitalone1/EasyEffects-Presets/master/LoudnessEqualizer.json"
+```
+
+
+### Resolution and scale
+
+```bash
+yay -Sy wlr-randr
+```
+
+Run wlr-randr to find outputs
+
+```text
+wlr-randr --output <<output>> --scale 2
+```
+
+Brightness control:
+
+brightnessctl
+
 
 ### System Monitoring
 
@@ -450,73 +514,15 @@ More information on <https://support.mozilla.org/en-US/kb/profiles-where-firefox
 
     doas nvim /etc/security/faillock.conf
 
-
-### Resolution and scale
-
-```bash
-yay -Sy wlr-randr
-```
-
-Run wlr-randr to find outputs
-
-```text
-wlr-randr --output <<output>> --scale 2
-```
-
-Brightness control:
-
-brightnessctl
-
 ### Apple Remote (IR)
 
 <https://lwn.net/Articles/759188/>
 
-
-
-
-
-
-
-
-
-stuff TODO
-
-
-### Audio
-
-```bash
-sudo pacman -Sy realtime-privileges
-sudo gpasswd -a <user> realtime
-sudo pacman -Sy pamixer # command line audio mixer
-sudo pacman -Sy playerctl
-```
-
-```bash
-sudo nvim /etc/security/limits.d/<user>.conf
-```
-
-```text
-<user> soft memlock 64
-<user> hard memlock 128
-```
-
-According to Mac mini (Mid 2010) - Technical Specifications <https://support.apple.com/kb/SP585?viewlocale=en_US&locale=de_DE> outputing audio via Mini DisplayPort is not possible but it should work via HDMI (max 1920x1200). Can be confirmed by:
-
-```bash
-pactl list cards
-```
-
-### other
+### Misc
 
 qt5-wayland
 qt6-wayland
 
-
-Night light
-
-```bash
-yay -Sy wlsunset
-```
 
 File manager
 
@@ -605,15 +611,6 @@ yay -Sy vulkan-swrast
 yay -Sy ares-emu
 ```
 
-#### Wine
-
-wine wine-mono
-wine-wow64 AUR
-
-fuseriso
-fuseiso <iso> <directory>
-wine <exe>
-
 #### VM
 
 qemu
@@ -653,7 +650,6 @@ dvbtraffic
 Nouveau driver installation
 mesa
 
-
 Notifications
 mako
 
@@ -665,11 +661,6 @@ sudo pacman -Sy kanshi
 
 https://sr.ht/~emersion/kanshi/
 
-
-Wallpaper
-yay -Sy swww
-
-swayidle can be used to for example lock the screen after some time idling
 
 Firefox
 Adblock add-on <https://addons.mozilla.org/firefox/downloads/file/4201108/adblocker_ultimate-3.8.14.xpi>
@@ -709,68 +700,3 @@ git clone --depth=1 https://github.com/vinceliuice/Fluent-icon-theme.git /tmp/Fl
 chmod +x /tmp/Fluent_icons_tmp/install.sh
 /tmp/Fluent_icons_tmp/install.sh -a -d /usr/share/icons/ -r
 ```
-
-Apply themes:
-Settings -> Appearance -> Theme
-Settings -> Appearance -> Symbols
-Settings -> Window Manager
-
-Desktop settings:
-Change background
-Single click for activation
-
-Add starters to desktop
-
-Change window manager shortcuts (Super + arrow keys)
-
-Change panel color
-
-Add schreibtisch anzeigen to panel
-
-Disable desktop switching
-Disable window rollup
-Rename desktops and change desktop switcher
-
-```bash
-pacman -Sy redshift
-sudo systemctl --user --global enable redshift-gtk.service
-```
-
-Replace ~/.face with 256x256 .png profile image
-
-### Audio
-
-Mac sound
-<https://wiki.archlinux.org/title/IMac_Aluminum#The_imac7,1_model:>
-
-```bash
-nvim /etc/modprobe.d/sound.conf
-echo options snd-hda-intel model=mb31 > /etc/modprobe.d/sound.conf
-```
-
-Easy Effects
-
-```bash
-pacman -Sy easyeffects lsp-plugins
-```
-
--> Settings -> Dark mode
-
-Download plugins from <https://github.com/wwmm/easyeffects/wiki/Community-Presets>
-
-```bash
-curl -O --output-dir ~/.config/easyeffects/output/ "https://raw.githubusercontent.com/Digitalone1/EasyEffects-Presets/master/LoudnessEqualizer.json"
-```
-
-### System maintenance
-
-```bash
-pacman -Sy gparted
-yay -Sy btrfs-assistant snapper
-```
-
-TODO Setup snapshots
-
-TODO setup brightness control later
-
-iMac 24 disable sleep button
