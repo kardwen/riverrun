@@ -14,7 +14,9 @@ Windows
 
 Linux
 
-    dd bs=4M if=path/to/alpine.iso of=/dev/disk/by-id/usb-My_flash_drive conv=fsync oflag=direct status=progress
+```
+dd bs=4M if=path/to/alpine.iso of=/dev/disk/by-id/usb-My_flash_drive conv=fsync oflag=direct status=progress
+```
 
 MacOS
 
@@ -246,16 +248,39 @@ relogin
 
 ### Device manager
 
-    doas apk add alpine-conf
-    doas setup-devd udev
+```sh
+apk add --quiet eudev udev-init-scripts udev-init-scripts-openrc
+rc-update add --quiet udev sysinit
+rc-update add --quiet udev-trigger sysinit
+rc-update add --quiet udev-settle sysinit
+rc-update add --quiet udev-postmount default
+rc-service --ifstopped udev start
+rc-service --ifstopped udev-trigger start
+rc-service --ifstopped udev-settle start
+rc-service --ifstopped udev-postmount start
+```
 
-### River
+#### USB drives
+
+mount usb drive
+
+    apk add udisks2
+    udisksctl mount -b /dev/sdb1
+    udisksctl unmount -b /dev/sdb1
+
+TODO add rules for auto mounting and video signals
+
+## River
 
     apk add river river-doc
 
 Copy example init:
 
     install -Dm0755 /usr/share/doc/river/examples/init -t ~/.config/river
+
+Install alacritty as terminal emulator (Can be launched with ctrl + shift + enter)
+
+    apk add alacritty
 
 Copy the script for starting river to ``/usr/local/bin/riverrun``and execute it by typing ``riverrun``.
 
@@ -290,6 +315,27 @@ Idle management:
 
 swayidle also needs to be configured
 
+### Application launcher
+
+    apk add bemenu
+
+### Resolution and scale
+
+```{ash}
+apk add waylock brightnessctl
+apk add wlr-randr
+```
+
+Run wlr-randr to find outputs
+
+```text
+wlr-randr --output <<output>> --scale 2
+```
+
+    apk add wlsunset
+
+does not work
+
 ### Login manager
 
 Simple login manager to automatically start River
@@ -305,6 +351,8 @@ Simple login manager to automatically start River
 
 ### File manager
 
+Thunar and plugins
+
 ```bash
 apk add thunar thunar-archive-plugin
 apk add thunar-volman thunar-media-tags-plugin
@@ -317,6 +365,8 @@ Terminal file manager
 ```bash
 apk add lf
 ```
+
+TODO add configuration
 
 ### Audio
 
@@ -343,7 +393,6 @@ Realtime sheduling
 
     apk add rtkit
     addgroup <user> rtkit
-
 
 #### Notes
 
@@ -377,27 +426,6 @@ Download plugins from <https://github.com/wwmm/easyeffects/wiki/Community-Preset
 ```bash
 curl -O --output-dir ~/.config/easyeffects/output/ "https://raw.githubusercontent.com/Digitalone1/EasyEffects-Presets/master/LoudnessEqualizer.json"
 ```
-
-### Application launcher
-
-    apk add bemenu
-
-### Resolution and scale
-
-```{ash}
-apk add waylock brightnessctl
-apk add wlr-randr
-```
-
-Run wlr-randr to find outputs
-
-```text
-wlr-randr --output <<output>> --scale 2
-```
-
-    apk add wlsunset
-
-does not work
 
 ### System Monitoring
 
@@ -436,7 +464,7 @@ adduser <user> lp
 bluetoothctl
 bluetuith
 
-### Other
+### Notes
 
 ```{ash}
 apk add intel-ucode
@@ -455,6 +483,35 @@ zsh
 
     apk add bash zsh
 
+TODO
+
+wallpaper
+notifications with mako
+
+Turn displays on and off with wlopm
+yay -Sy wlopm
+
+kanshi for creating profiles
+sudo pacman -Sy kanshi
+
+https://sr.ht/~emersion/kanshi/
+
+### Programs
+
+TODO configure default applications
+
+```sh
+gimp inkscape
+p7zip
+asciiquarium
+neovim
+vlc
+libreoffice
+wine
+```
+
+thunderbird
+
 #### PDF viewer
 
     doas apk add zathura
@@ -463,15 +520,9 @@ zsh
     apk add zathura-ps
     apk add zathura-pdf-mupdf
 
-#### USB drives
-
-mount usb drive
-
-    apk add udisks2
-    udisksctl mount -b /dev/sdb1
-    udisksctl unmount -b /dev/sdb1
-
 #### Firefox
+
+    apk add firefox
 
 Profile location can be found by entering about:profiles in the adress bar, usually located in ``~/.mozilla/firefox/``
 
@@ -490,21 +541,30 @@ Adblock add-on
 Edit start page
 Edit menu bar
 
-### Apple Remote (IR)
+### Tex
 
-<https://lwn.net/Articles/759188/>
+apk add texlive-full
+apk add biber
+
+### git
+
+    apk add git tig
+
+    git config --global user.name
+    git config --global user.email
+
+### VS Code
+
+    apk add code-oss
 
 ### Misc
 
-```bash
-sudo pacman -Sy chromium
-sudo pacman -Sy firefox
+```sh
+apk add chromium
 ```
 
 ```bash
-sudo pacman -Sy cava
-sudo pacman -Sy neofetch
-sudo pacman -Sy htop
+apk add cava
 ```
 
 p7zip
@@ -516,11 +576,6 @@ sudo pacman -Sy vlc
 Image viewer:
 ristretto
 
-
-
-notifications mako
-
-wallpaper
 
 wofi launcher?
 
@@ -581,6 +636,10 @@ nvim start_windows_98
 
 sudo chmod +x start_windows_98
 
+### Apple Remote (IR)
+
+<https://lwn.net/Articles/759188/>
+
 ### TV
 
 https://wiki.archlinux.org/title/DVB-T
@@ -603,30 +662,6 @@ dvbtraffic
 
 ## Notes
 
-Notifications
-mako
-
-Turn displays on and off with wlopm
-yay -Sy wlopm
-
-kanshi for creating profiles
-sudo pacman -Sy kanshi
-
-https://sr.ht/~emersion/kanshi/
-
-```bash
-pacman -Sy gimp inkscape
-pacman -Sy p7zip
-pacman -Sy asciiquarium
-pacman -Sy htop
-pacman -Sy neovim
-pacman -Sy vlc
-pacman -Sy libreoffice
-pacman -Sy wine
-```
-
-thunderbird
-
 ### XFCE themes
 
 Install Fluent theme
@@ -645,20 +680,6 @@ git clone --depth=1 https://github.com/vinceliuice/Fluent-icon-theme.git /tmp/Fl
 chmod +x /tmp/Fluent_icons_tmp/install.sh
 /tmp/Fluent_icons_tmp/install.sh -a -d /usr/share/icons/ -r
 ```
-
-### Tex
-
-apk add texlive-full
-apk add biber
-
-### git
-
-    apk add git tig
-
-    git config --global user.name
-    git config --global user.email
-
-    apk add code-oss firefox alacritty
 
 ### Services
 
