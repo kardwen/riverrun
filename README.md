@@ -14,7 +14,7 @@ Windows
 
 Linux
 
-```
+```sh
 dd bs=4M if=path/to/alpine.iso of=/dev/disk/by-id/usb-My_flash_drive conv=fsync oflag=direct status=progress
 ```
 
@@ -35,44 +35,51 @@ Connect to LAN
 
 <https://docs.alpinelinux.org/user-handbook/0.1a/Installing/manual.html>
 
+```sh
     setup-keymap ch ch
 
     setup-hostname alpine201
     vi /etc/hosts
+```
 
 ``/etc/hosts``
 
-```{text}
+```text
 127.0.0.1 localhost.localdomain localhost alpine.localdomain alpine201
 ::1       localhost.localdomain localhost alpine.localdomain alpine201
 ```
+```sh
+rc-service hostname restart
 
-    rc-service hostname restart
+setup-interfaces -a
+rc-service networking start
+rc-update add networking boot
 
-    setup-interfaces -a
-    rc-service networking start
-    rc-update add networking boot
+apk add tzdata
+install -Dm 0644 /usr/share/zoneinfo/Europe/Berlin /etc/zoneinfo/Europe/Berlin
+export TZ='Europe/Berlin'
+echo "export TZ='$TZ'" >> /etc/profile.d/timezone.sh
 
-    apk add tzdata
-    install -Dm 0644 /usr/share/zoneinfo/Europe/Berlin /etc/zoneinfo/Europe/Berlin
-    export TZ='Europe/Berlin'
-    echo "export TZ='$TZ'" >> /etc/profile.d/timezone.sh
+setup-apkrepos
 
-    setup-apkrepos
+passwd
 
-    passwd
-
-    setup-sshd
+setup-sshd
+```
 
 Network Time Protocol (NTP)
 
-    setup-ntp
-    apk add chrony
+```sh
+setup-ntp
+apk add chrony
+```
 
 Replace default config in ``/etc/chrony/chrony.conf``
 
-    rc-service chronyd start
-    rc-update add chronyd
+```sh
+rc-service chronyd start
+rc-update add chronyd
+```
 
 Log-in via SSH
 
@@ -81,51 +88,64 @@ Log-in via SSH
 <https://docs.alpinelinux.org/user-handbook/0.1a/Installing/manual.html#_partitioning_your_disk>
 <https://wiki.alpinelinux.org/wiki/Installing_on_GPT_LVM>
 
-    apk add gptfdisk sgdisk
+```sh
+apk add gptfdisk sgdisk
 
-    sgdisk -o /dev/sda \
-        -n 1:0:+2M -t 1:ef02 -c 1:"BIOS boot partition" \
-        -n 2:0:+100M -t 2:8300 -c 2:"Linux filesystem" \
-        -n 3:0:0 -t 3:8e00 -c 3:"Alpine Linux"
+sgdisk -o /dev/sda \
+    -n 1:0:+2M -t 1:ef02 -c 1:"BIOS boot partition" \
+    -n 2:0:+100M -t 2:8300 -c 2:"Linux filesystem" \
+    -n 3:0:0 -t 3:8e00 -c 3:"Alpine Linux"
 
-    sgdisk --attributes=2:set:2 /dev/sda
+sgdisk --attributes=2:set:2 /dev/sda
+```
 
+Partition table:
 
-    Number  Start (sector)    End (sector)  Size       Code  Name
-    1            2048            6143   2.0 MiB     EF02  BIOS boot partition
-    2            6144          210943   100.0 MiB   8300  Linux filesystem
-    3          210944       250069646   119.1 GiB   8E00  Alpine Linux
+```text
+Number  Start (sector)    End (sector)  Size       Code  Name
+1            2048            6143   2.0 MiB     EF02  BIOS boot partition
+2            6144          210943   100.0 MiB   8300  Linux filesystem
+3          210944       250069646   119.1 GiB   8E00  Alpine Linux
+```
 
 I had to reboot several times because this was not working, thus to repeat the previous setup
 
-    apk add e2fsprogs btrfs-progs
-    mkfs.ext4 /dev/sda2
-    mkfs.ext4 /dev/sda3
+```sh
+apk add e2fsprogs btrfs-progs
+mkfs.ext4 /dev/sda2
+mkfs.ext4 /dev/sda3
+```
 
 reboot
 
-    mount /dev/sda3 /mnt
-    mkdir /mnt/boot
-    mount /dev/sda2 /mnt/boot
+```sh
+mount /dev/sda3 /mnt
+mkdir /mnt/boot
+mount /dev/sda2 /mnt/boot
 
-    setup-disk -m sys /mnt
+setup-disk -m sys /mnt
 
-    apk add syslinux
-    dd bs=440 count=1 conv=notrunc if=/usr/share/syslinux/gptmbr.bin of=/dev/sda
+apk add syslinux
+dd bs=440 count=1 conv=notrunc if=/usr/share/syslinux/gptmbr.bin of=/dev/sda
+```
 
 ### Configuration
 
-    adduser -h /home/felix -s /bin/ash felix
+```sh
+adduser -h /home/felix -s /bin/ash felix
+```
 
 Install ``doas``
 
-    apk add doas 
-    vi /etc/doas.conf
-    adduser felix -G wheel 
-
-``/etc/doas.conf``
-
+```sh
+apk add doas 
+vi /etc/doas.conf
+adduser felix -G wheel 
 ```
+
+TODO add ``/etc/doas.conf``
+
+```text
 permit persist :wheel
 
 permit nopass :wheel cmd /usr/sbin/zzz
@@ -137,74 +157,95 @@ permit nopass felix cmd zzz
 
 Disallow logging in as root via SSH:
 
-    vi /etc/ssh/sshd_config
+```sh
+vi /etc/ssh/sshd_config
+```
 
 Log-in as user via SSH:
 
-    groups # wheel should have been added
-    ssh -l felix alpine201
+```sh
+groups # wheel should have been added
+ssh -l felix alpine201
+```
 
 You can still login as root via SSH with ``su -``
 
 Add the [community repository](https://wiki.alpinelinux.org/wiki/Repositories)
 
-``/etc/apk/repositories``
+TODO add ``/etc/apk/repositories``
 
-    http://dl-cdn.alpinelinux.org/alpine/edge/main
-    http://dl-cdn.alpinelinux.org/alpine/edge/community
+```text
+http://dl-cdn.alpinelinux.org/alpine/edge/main
+http://dl-cdn.alpinelinux.org/alpine/edge/community
+```
 
 Upgrade
 
-    doas apk update
-    doas apk upgrade --available
+```sh
+doas apk update
+doas apk upgrade --available
+```
 
-    apk add gcompat
+```
+apk add gcompat
+```
 
 ### Networking
 
-    apk add openresolv
-    apk add ifupdown-ng
-    apk add dhcpcd
+```sh
+apk add openresolv
+apk add ifupdown-ng
+apk add dhcpcd
+```
 
-``/etc/dhcpcd.conf``
+TODO add ``/etc/dhcpcd.conf``
 
-    # https://datatracker.ietf.org/doc/html/rfc2131#section-2.2
-    noarp
+# https://datatracker.ietf.org/doc/html/rfc2131#section-2.2
 
-    background
+```text
+noarp
+
+background
+```
 
 Wi-Fi
 
-    apk add dbus iwd
-    rc-service dbus start
-    rc-update add dbus boot
-    rc-service iwd start
-    rc-update add iwd default
+```sh
+apk add dbus iwd
+rc-service dbus start
+rc-update add dbus boot
+rc-service iwd start
+rc-update add iwd default
+```
 
 <https://wiki.alpinelinux.org/wiki/Iwd>
 
-    iwctl
+```sh
+iwctl
 
-    device list
-    device <device> set-property Powered on
-    adapter <adapter> set-property Powered on
-    station <device> scan
-    station <device> get-networks
-    station <device> connect <SSID>
-    station list
+device list
+device <device> set-property Powered on
+adapter <adapter> set-property Powered on
+station <device> scan
+station <device> get-networks
+station <device> connect <SSID>
+station list
+```
 
 <https://github.com/pythops/impala>
 
 ``/etc/network/interfaces``
 
-    auto lo
-    iface lo inet loopback
+```text
+auto lo
+iface lo inet loopback
 
-    auto eth0
-    iface eth0 inet dhcp
+auto eth0
+iface eth0 inet dhcp
 
-    auto wlan0
-    iface wlan0 inet dhcp
+auto wlan0
+iface wlan0 inet dhcp
+```
 
 Relogin
 
@@ -212,37 +253,47 @@ Network configurations can be found under ``/var/lib/iwd`` and certificates shou
 
 ### Fonts
 
-    apk add font-terminus font-inconsolata font-dejavu font-noto font-noto-cjk font-awesome font-noto-extra
-    apk add adwaita-icon-theme font-dejavu
+```sh
+apk add font-terminus font-inconsolata font-dejavu font-noto font-noto-cjk font-awesome font-noto-extra
+apk add adwaita-icon-theme font-dejavu
+```
 
 <https://wiki.alpinelinux.org/wiki/Fonts>
 
 ### Graphic drivers (Intel Thinkpad x201s):
 
-    apk add mesa-dri-gallium
-    apk add mesa-va-gallium
-    apk add libva-intel-driver
+```sh
+apk add mesa-dri-gallium
+apk add mesa-va-gallium
+apk add libva-intel-driver
+```
 
 ### Session
 
-    doas apk add seatd libseat
-    doas rc-service seatd start
-    doas rc-update add seatd boot
-    doas adduser felix seat
+```sh
+doas apk add seatd libseat
+doas rc-service seatd start
+doas rc-update add seatd boot
+doas adduser felix seat
 
-    doas apk add polkit
-    rc-update add polkit
-    rc-service polkit start
+doas apk add polkit
+rc-update add polkit
+rc-service polkit start
 
-    apk add mkrundir
+apk add mkrundir
+```
 
 Edit ``~/.profile`` to add
 
-    export XDG_RUNTIME_DIR=$(mkrundir)
+```text
+export XDG_RUNTIME_DIR=$(mkrundir)
+```
 
-    apk add turnstile
-    rc-update add turnstiled
-    rc-service turnstiled start
+```sh
+apk add turnstile
+rc-update add turnstiled
+rc-service turnstiled start
+```
 
 relogin
 
@@ -264,29 +315,39 @@ rc-service --ifstopped udev-postmount start
 
 mount usb drive
 
-    apk add udisks2
-    udisksctl mount -b /dev/sdb1
-    udisksctl unmount -b /dev/sdb1
+```sh
+apk add udisks2
+udisksctl mount -b /dev/sdb1
+udisksctl unmount -b /dev/sdb1
+```
 
 TODO add rules for auto mounting and video signals
 
 ## River
 
-    apk add river river-doc
+```sh
+apk add river river-doc
+```
 
 Copy example init:
 
-    install -Dm0755 /usr/share/doc/river/examples/init -t ~/.config/river
+```sh
+install -Dm0755 /usr/share/doc/river/examples/init -t ~/.config/river
+```
 
 Install alacritty as terminal emulator (Can be launched with ctrl + shift + enter)
 
-    apk add alacritty
+```sh
+apk add alacritty
+```
 
 Copy the script for starting river to ``/usr/local/bin/riverrun``and execute it by typing ``riverrun``.
 
 ### Statusbar
 
-    apk add yambar
+```sh
+apk add yambar
+```
 
 <https://git.sr.ht/~justinesmithies/dotfiles>
 
@@ -429,6 +490,7 @@ curl -O --output-dir ~/.config/easyeffects/output/ "https://raw.githubuserconten
 
 ### System Monitoring
 
+```sh
     apk add htop
 
     apk add lm-sensors lm-sensors-sensord lm-sensors-detect
@@ -438,22 +500,26 @@ curl -O --output-dir ~/.config/easyeffects/output/ "https://raw.githubuserconten
     doas i2cdetect -l
 
     doas sensors-detect
+```
 
 It is strongly advised to accept default answers when running ``sensors-detect``.
 Answer yes for writing to ``/etc/modules-load.d/lm_sensors.conf``
 
-    apk del lm-sensors-detect
+```sh
+apk del lm-sensors-detect
 
-    rc-update add sensord default
-    rc-service sensord start
+rc-update add sensord default
+rc-service sensord start
 
-    sensors
+sensors
 
-    apk add s-tui
-    s-tui
+apk add s-tui
+s-tui
+```
 
 ### Bluetooth
 
+```sh
 apk add bluez pipewire-spa-bluez
 apk add bluetuith
 modprobe btusb
@@ -463,14 +529,20 @@ adduser <user> lp
 
 bluetoothctl
 bluetuith
+```
 
-### Notes
+## Notes
 
-```{ash}
+```sh
 apk add intel-ucode
 apk add linux-pam
 
 apk add neovim
+```
+
+change deny configuration
+```sh
+doas nvim /etc/security/faillock.conf
 ```
 
 <https://gnulinux.ch/alpine-linux-als-desktop>
@@ -489,10 +561,8 @@ wallpaper
 notifications with mako
 
 Turn displays on and off with wlopm
-yay -Sy wlopm
 
 kanshi for creating profiles
-sudo pacman -Sy kanshi
 
 https://sr.ht/~emersion/kanshi/
 
@@ -510,15 +580,19 @@ libreoffice
 wine
 ```
 
-thunderbird
+E-mail: thunderbird, aerc
 
 #### PDF viewer
 
-    doas apk add zathura
-    apk add zathura-cb
-    apk add zathura-djvu
-    apk add zathura-ps
-    apk add zathura-pdf-mupdf
+Zathura
+
+```sh
+doas apk add zathura
+apk add zathura-cb
+apk add zathura-djvu
+apk add zathura-ps
+apk add zathura-pdf-mupdf
+```
 
 #### Firefox
 
@@ -535,13 +609,11 @@ Close firefox before copying files.
 
 More information on <https://support.mozilla.org/en-US/kb/profiles-where-firefox-stores-user-data>
 
-    doas nvim /etc/security/faillock.conf
-
 Adblock add-on
 Edit start page
 Edit menu bar
 
-### Tex
+#### Tex
 
 apk add texlive-full
 apk add biber
@@ -553,11 +625,13 @@ apk add biber
     git config --global user.name
     git config --global user.email
 
-### VS Code
+#### VS Code
+
+like VS Code, but installing plugins is more complicated
 
     apk add code-oss
 
-### Misc
+#### Misc
 
 ```sh
 apk add chromium
@@ -574,26 +648,13 @@ sudo pacman -Sy vlc
 ```
 
 Image viewer:
-ristretto
-
-
-wofi launcher?
+ristretto or imv
 
 ```bash
 sudo pacman -Sy xdg-desktop-prtal xdg-desktop-prtal-gtk xdg-desktop-portal-wlr
 ```
 
 ### Games
-
-#### Controller
-
-```bash
-yay -Sy game-devices-udev
-```
-
-8bitDo SN30 Pro
-Connect in X mode (Start + X)
-
 
 #### Retroarch
 
@@ -636,10 +697,6 @@ nvim start_windows_98
 
 sudo chmod +x start_windows_98
 
-### Apple Remote (IR)
-
-<https://lwn.net/Articles/759188/>
-
 ### TV
 
 https://wiki.archlinux.org/title/DVB-T
@@ -659,8 +716,6 @@ vlc dvb.xspf
 
 dvbtraffic
 ```
-
-## Notes
 
 ### XFCE themes
 
@@ -685,10 +740,26 @@ chmod +x /tmp/Fluent_icons_tmp/install.sh
 
 <https://docs.alpinelinux.org/user-handbook/0.1a/Working/openrc.html>
 
-    rc-update show -v
-
-deactivate middle mouse button paste?
+```sh
+rc-update show -v
+```
 
 apk add libinput
 libinput list-devices
 riverctl list-inputs
+
+### Devices
+
+#### Controller
+
+```sh
+yay -Sy game-devices-udev
+```
+
+8bitDo SN30 Pro
+Connect in X mode (Start + X)
+
+#### Apple Remote (IR)
+
+should work out of the box
+<https://lwn.net/Articles/759188/>
