@@ -106,7 +106,7 @@ apk add gptfdisk sgdisk
 sgdisk -o /dev/sda \
     -n 1:0:+2M -t 1:ef02 -c 1:"BIOS boot partition" \
     -n 2:0:+100M -t 2:8300 -c 2:"Linux filesystem" \
-    -n 3:0:0 -t 3:8e00 -c 3:"Alpine Linux"
+    -n 3:0:0 -t 3:8300 -c 3:"Alpine Linux"
 
 sgdisk --attributes=2:set:2 /dev/sda
 ```
