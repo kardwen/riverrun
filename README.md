@@ -96,6 +96,8 @@ ssh root@alpine201
 <https://docs.alpinelinux.org/user-handbook/0.1a/Installing/manual.html#_partitioning_your_disk>
 <https://wiki.alpinelinux.org/wiki/Installing_on_GPT_LVM>
 
+The following command will delete everything on ``/dev/sda``, so make sure to replace it with the correct drive!
+
 ```sh
 apk add gptfdisk sgdisk
 
