@@ -93,6 +93,8 @@ ssh root@alpine201
 
 ### Partitioning
 
+Instructions for using a GPT partioning scheme on a BIOS system
+
 <https://docs.alpinelinux.org/user-handbook/0.1a/Installing/manual.html#_partitioning_your_disk>
 <https://wiki.alpinelinux.org/wiki/Installing_on_GPT_LVM>
 
