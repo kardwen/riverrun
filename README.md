@@ -67,10 +67,11 @@ passwd
 setup-sshd
 ```
 
+(allow root)
+
 Network Time Protocol (NTP)
 
 ```sh
-setup-ntp
 apk add chrony
 ```
 
@@ -82,6 +83,10 @@ rc-update add chronyd
 ```
 
 Log-in via SSH
+
+```sh
+ssh root@alpine201
+```
 
 ### Partitioning
 
@@ -140,7 +145,7 @@ Install ``doas``
 ```sh
 apk add doas 
 vi /etc/doas.conf
-adduser felix -G wheel 
+adduser felix wheel 
 ```
 
 TODO add ``/etc/doas.conf``
@@ -182,11 +187,11 @@ http://dl-cdn.alpinelinux.org/alpine/edge/community
 Upgrade
 
 ```sh
-doas apk update
-doas apk upgrade --available
+apk update
+apk upgrade --available
 ```
 
-```
+```sh
 apk add gcompat
 ```
 
@@ -200,7 +205,7 @@ apk add dhcpcd
 
 TODO add ``/etc/dhcpcd.conf``
 
-# https://datatracker.ietf.org/doc/html/rfc2131#section-2.2
+<https://datatracker.ietf.org/doc/html/rfc2131#section-2.2>
 
 ```text
 noarp
@@ -232,7 +237,38 @@ station <device> connect <SSID>
 station list
 ```
 
-<https://github.com/pythops/impala>
+Troubleshooting
+
+```sh
+apk add pciutils
+lspci -k # list devices
+ip link # list interfaces
+dmesg | grep ipw2200
+```
+
+lspci -k should list your wifi interface and a kernel driver for it below
+
+IBM Thinkpad x40:
+
+https://wiki.archlinux.org/title/Network_configuration/Wireless
+https://wireless.wiki.kernel.org/en/users/drivers
+https://wireless.wiki.kernel.org/en/users/drivers/ipw2200
+
+it seems that the driver is not loaded correctly, solution:
+
+https://gitlab.alpinelinux.org/alpine/aports/-/issues/8873
+
+    curl -L -o /lib/firmware/ipw2200-bss.fw 'https://github.com/Jolicloud/linux-firmware/blob/master/ipw2200-bss.fw?raw=true'
+
+ipw2200 does not work together with iwd or iw and can be configured with wireless-tools instead:
+
+    apk add wireless-tools
+    iwconfig eth1
+    iwconfig eth1 power on # power saving setting
+    iwlist eth1 scan
+    iwconfig eth1 essid your_essid key s:your_key
+
+iwd gui: <https://github.com/pythops/impala>
 
 ``/etc/network/interfaces``
 
@@ -271,12 +307,12 @@ apk add libva-intel-driver
 ### Session
 
 ```sh
-doas apk add seatd libseat
-doas rc-service seatd start
-doas rc-update add seatd boot
-doas adduser felix seat
+apk add seatd libseat
+rc-service seatd start
+rc-update add seatd boot
+adduser felix seat
 
-doas apk add polkit
+apk add polkit
 rc-update add polkit
 rc-service polkit start
 
