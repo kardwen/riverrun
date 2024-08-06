@@ -2,6 +2,9 @@
 
 Alpine Linux and River setup
 
+This are my yet to be completed notes for setting up Alpine with the River window manager. It's called Riverrun because that is the name I gave the script that initializes everything.
+Currently it is still a mess that can barely be understood by anyone save myself, apologies for that.
+
 ## Installation medium
 
 Download extended version of Alpine Linux for your architecture at <https://alpinelinux.org/downloads/>
@@ -10,7 +13,7 @@ Download extended version of Alpine Linux for your architecture at <https://alpi
 
 Windows
 
-[USBWriter](https://sourceforge.net/projects/usbwriter/) if you can't mount it under Windows use ``diskpart`` to wipe it
+[USBWriter](https://sourceforge.net/projects/usbwriter/) if you can't mount it under Windows use ``diskpart`` to wipe it (if diskpart complains, boot a Linux live distro and use fdisk or try another proprietary partition manager for Windows)
 
 Linux
 
