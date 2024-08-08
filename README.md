@@ -324,39 +324,6 @@ apk add mesa-va-gallium
 apk add libva-media-driver
 ```
 
-### Session
-
-```sh
-apk add seatd libseat
-rc-service seatd start
-rc-update add seatd boot
-adduser felix seat
-
-apk add polkit
-rc-update add polkit
-rc-service polkit start
-
-apk add mkrundir
-```
-
-TODO replace mkrundir (testing repository) with pam-rundir
-
-Edit ``~/.profile`` to add
-
-```text
-export XDG_RUNTIME_DIR=$(mkrundir)
-```
-
-TODO replace turnstile with elogind for now
-
-```sh
-apk add turnstile
-rc-update add turnstiled
-rc-service turnstiled start
-```
-
-relogin
-
 ### Device manager
 
 ```sh
@@ -384,6 +351,33 @@ udisksctl unmount -b /dev/sdb1
 TODO add rules for auto mounting and video signals
 
 ## River
+
+### Session
+
+```sh
+apk add seatd libseat
+rc-service seatd start
+rc-update add seatd boot
+adduser felix seat
+
+apk add polkit
+rc-update add polkit
+rc-service polkit start
+
+apk add mkrundir
+```
+
+TODO replace mkrundir (in testing repository) with pam-rundir
+
+TODO
+
+```sh
+apk add turnstile
+rc-update add turnstiled
+rc-service turnstiled start
+```
+
+Relogin
 
 ```sh
 apk add river river-doc
@@ -464,7 +458,7 @@ Simple login manager to automatically start River
     apk add greetd
     apk add greetd-agreety
 
-    doas addgroup greetd wheel
+    doas addgroup greetd wheel # TODO check if required
 
     doas nvim /etc/greetd/config.toml
 
@@ -474,7 +468,7 @@ Simple login manager to automatically start River
 
 Thunar and plugins
 
-```bash
+```sh
 apk add thunar thunar-archive-plugin
 apk add thunar-volman thunar-media-tags-plugin
 apk add font-manager-thunar
@@ -483,7 +477,7 @@ apk add gvfs sshfs gvfs-smb gvfs-afc gvfs-gphoto2 gvfs-mtp gvfs-nfs
 
 Terminal file manager
 
-```bash
+```sh
 apk add lf
 ```
 
@@ -491,16 +485,18 @@ TODO add configuration
 
 ### Audio
 
-    apk add pipewire
-    addgroup <user> audio
-    apk add wireplumber
-    apk add pipewire-alsa
-    apk add pipewire-jack
-    apk add pipewire-pulse
-    apk add xdg-desktop-portal-wlr
-    apk add alsa-utils alsa-lib alsaconf
-    apk add pamixer
-    apk add superd
+```sh
+apk add pipewire
+addgroup <user> audio
+apk add wireplumber
+apk add pipewire-alsa
+apk add pipewire-jack
+apk add pipewire-pulse
+apk add xdg-desktop-portal-wlr
+apk add alsa-utils alsa-lib alsaconf
+apk add pamixer
+apk add superd
+```
 
 [superd](https://sr.ht/~craftyguy/superd/) is a process supervisor that can be used with openRC because openRC does not have the concept of user services.
 
