@@ -123,7 +123,7 @@ Number  Start (sector)    End (sector)  Size       Code  Name
 I had to reboot several times because this was not working, thus to repeat the previous setup
 
 ```sh
-apk add e2fsprogs btrfs-progs
+apk add e2fsprogs
 mkfs.ext4 /dev/sda2
 mkfs.ext4 /dev/sda3
 ```
@@ -140,6 +140,11 @@ setup-disk -m sys /mnt
 apk add syslinux
 dd bs=440 count=1 conv=notrunc if=/usr/share/syslinux/gptmbr.bin of=/dev/sda
 ```
+
+todo uefi gpt
+
+    apk add btrfs-progs
+    modprobe btrfs
 
 ### Configuration
 
@@ -311,6 +316,14 @@ apk add mesa-va-gallium
 apk add libva-intel-driver
 ```
 
+todo new intel graphics
+
+```sh
+apk add mesa-dri-gallium
+apk add mesa-va-gallium
+apk add libva-media-driver
+```
+
 ### Session
 
 ```sh
@@ -326,11 +339,15 @@ rc-service polkit start
 apk add mkrundir
 ```
 
+TODO replace mkrundir (testing repository) with pam-rundir
+
 Edit ``~/.profile`` to add
 
 ```text
 export XDG_RUNTIME_DIR=$(mkrundir)
 ```
+
+TODO replace turnstile with elogind for now
 
 ```sh
 apk add turnstile
