@@ -383,11 +383,23 @@ Relogin
 apk add river river-doc
 ```
 
+#### Configuration
+
 Copy example init:
 
 ```sh
 install -Dm0755 /usr/share/doc/river/examples/init -t ~/.config/river
 ```
+
+or copy ``/river/init`` and adapt it,
+you can exit river with Super+Shift+E
+
+List input devices like touchpad etc:
+
+```sh
+riverctl list-inputs
+```
+
 
 Install alacritty as terminal emulator (Can be launched with ctrl + shift + enter)
 
@@ -408,6 +420,8 @@ apk add yambar
     apk add nerd-fonts-all
 
     apk add font-awesome  # maybe
+
+copy yambar config
 
 ### Power Management
 
@@ -458,7 +472,7 @@ Simple login manager to automatically start River
     apk add greetd
     apk add greetd-agreety
 
-    doas addgroup greetd wheel # TODO check if required
+    rc-update add greetd
 
     doas nvim /etc/greetd/config.toml
 
@@ -482,6 +496,10 @@ apk add lf
 ```
 
 TODO add configuration
+
+filesystem support
+
+    apk add btrfs-progs dosfstools exfatprogs ntfs-3g
 
 ### Audio
 
@@ -678,8 +696,12 @@ apk add biber
 
     apk add git tig
 
-    git config --global user.name
-    git config --global user.email
+    git config --global user.name <name>
+    git config --global user.email <e-mail>
+
+https://docs.github.com/en/authentication/connecting-to-github-with-ssh/checking-for-existing-ssh-keys
+
+
 
 #### VS Code
 
