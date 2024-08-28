@@ -11,9 +11,6 @@ bar:
   right-spacing: 8
   right-margin: 10
   border:
-    top-margin: 4
-    left-margin: 4
-    right-margin: 4
     color: d8dee900 
   background: 000000aa
   foreground: ffffffff

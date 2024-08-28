@@ -213,6 +213,7 @@ apk add gcompat
 apk add openresolv
 apk add ifupdown-ng
 apk add dhcpcd
+rc-update add dhcpcd
 ```
 
 TODO add ``/etc/dhcpcd.conf``
@@ -225,7 +226,13 @@ noarp
 background
 ```
 
-Wi-Fi
+#### Wi-Fi
+
+When you need to configure wlan you first have to use wpa_supplicant because iwd is not included. Also remember to remove its service and to delete the old configuration in `/etc/wpa_supplicant` after installing iwd.
+
+```
+rc-update del wpa_supplicant boot
+```
 
 ```sh
 apk add dbus iwd
@@ -278,7 +285,7 @@ ipw2200 does not work together with iwd or iw and can be configured with wireles
     iwconfig eth1
     iwconfig eth1 power on # power saving setting
     iwlist eth1 scan
-    iwconfig eth1 essid your_essid key s:your_key
+    iwconfig eth1 essid <your_essid> key s:<your_key>
 
 iwd gui: <https://github.com/pythops/impala>
 
@@ -449,6 +456,12 @@ swayidle also needs to be configured
     apk add bemenu
 
 ### Resolution and scale
+
+```{ash}
+apk add brightnessctl
+addgroup <user> audio
+```
+
 
 ```{ash}
 apk add waylock brightnessctl
@@ -841,3 +854,30 @@ Connect in X mode (Start + X)
 
 should work out of the box
 <https://lwn.net/Articles/759188/>
+
+### Flatpak
+
+<https://wiki.alpinelinux.org/wiki/Flatpak> with <https://flathub.org/> repository
+
+```sh
+apk add flatpak
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+```
+
+Signal Desktop Messenger
+
+<https://flathub.org/apps/org.signal.Signal>
+
+```sh
+flatpak install flathub org.signal.Signal
+```
+
+can be run with
+
+```sh
+flatpak run org.signal.Signal
+```
+
+alias `signal` defined in `~/.profile`
+
+TODO find a good solution for sourcing .profile

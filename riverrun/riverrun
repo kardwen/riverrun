@@ -19,4 +19,4 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 # Run user services
 superd &
 
-exec river
+exec dbus-run-session -- river
