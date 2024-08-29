@@ -1,0 +1,39 @@
+#!/bin/sh
+
+# Backlight functions
+brightness_down () {
+    current_brightness=$(brightnessctl get)
+    current_brightness=$(printf "%.0f" "$current_brightness")
+    low_brightness=$(echo "0.05 * $(brightnessctl max)" | bc)
+    low_brightness=$(printf "%.0f" "$low_brightness")
+
+    if [ "$current_brightness" -gt 1 -a "$current_brightness" -le "$low_brightness" ]; then
+        brightnessctl set 1
+    else
+        brightnessctl set 5%-
+    fi
+}
+
+brightness_up() {
+    current_brightness=$(brightnessctl get)
+    current_brightness=$(printf "%.0f" "$current_brightness")
+
+    if [ "$current_brightness" -eq 0 ]; then
+        brightnessctl set 1
+    else
+        brightnessctl set +5%
+    fi
+}
+
+case "$1" in
+    up)
+        brightness_up
+        ;;
+    down)
+        brightness_down
+        ;;
+    *)
+        echo "Usage: $0 {up|down}"
+        exit 1
+        ;;
+esac

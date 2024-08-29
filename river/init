@@ -65,9 +65,6 @@ riverctl map normal Super+Alt+Shift J resize vertical 100
 riverctl map normal Super+Alt+Shift K resize vertical -100
 riverctl map normal Super+Alt+Shift L resize horizontal 100
 
-# Maximize view vertically
-riverctl map normal Super+Alt M resize vertical 1000000
-
 # Super + Left Mouse Button to move views
 riverctl map-pointer normal Super BTN_LEFT move-view
 
@@ -141,8 +138,8 @@ do
     riverctl map $mode None XF86AudioNext  spawn 'playerctl next'
 
     # Control screen backlight brightness with brightnessctl (https://github.com/Hummer12007/brightnessctl)
-    riverctl map $mode None XF86MonBrightnessUp   spawn 'brightnessctl set +5%'
-    riverctl map $mode None XF86MonBrightnessDown spawn 'brightnessctl set 5%-'
+    riverctl map $mode None XF86MonBrightnessUp   spawn '~/.config/river/scripts/brightness up'
+    riverctl map $mode None XF86MonBrightnessDown spawn '~/.config/river/scripts/brightness down'
 done
 
 # Set background and border color
@@ -154,7 +151,7 @@ riverctl border-color-unfocused 0x586e75
 riverctl set-repeat 50 300
 
 # Set keyboard layout
-riverctl keyboard-layout ch
+riverctl keyboard-layout de
 
 
 # Make all views with an app-id that starts with "float" and title "foo" start floating.
@@ -166,7 +163,7 @@ riverctl rule-add -app-id "bar" csd
 # Set the default layout generator to be rivertile and start it.
 # River will send the process group of the init executable SIGTERM on exit.
 riverctl default-layout rivertile
-rivertile -view-padding 2 -outer-padding 2 &
+rivertile -view-padding 2 -outer-padding 0 &
 
 # Set output scale TODO Find all displays
 #wlr-randr --output DP-1 --scale 2
@@ -180,9 +177,9 @@ riverctl map normal Super R spawn "bemenu-run -i -l 16 --fixed-height -W 0.4 -cf
 riverctl map normal Super S spawn "waylock -init-color 0x000000 -input-color 0x1d2048 -fail-color 0x782033"
 
 riverctl input *Touchpad* tap enabled
-riverctl input *Touchpad* pointer-accel 0.5
+riverctl input *Touchpad* pointer-accel 0.25
 riverctl input *Touchpad* natural-scroll enabled
-riverctl input *Touchpad* scroll-factor 0.5
+riverctl input *Touchpad* scroll-factor 0.4
 
 #riverctl input *TrackPoint* middle-emulation disabled
 riverctl input *TrackPoint* pointer-accel 0.25

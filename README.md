@@ -458,13 +458,13 @@ swayidle also needs to be configured
 ### Resolution and scale
 
 ```{ash}
-apk add brightnessctl
 addgroup <user> audio
 ```
 
 
 ```{ash}
 apk add waylock brightnessctl
+rc-update add brightnessctl
 apk add wlr-randr
 ```
 
@@ -657,6 +657,8 @@ https://sr.ht/~emersion/kanshi/
 
 TODO configure default applications
 
+`~/.config/mimeapps.list`
+
 ```sh
 gimp inkscape
 p7zip
@@ -667,7 +669,11 @@ libreoffice
 wine
 ```
 
-E-mail: thunderbird, aerc
+E-mail: aerc
+
+```sh
+apk add aerc
+```
 
 #### PDF viewer
 
