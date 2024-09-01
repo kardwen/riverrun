@@ -2,8 +2,7 @@
 
 Alpine Linux and River setup
 
-This are my yet to be completed notes for setting up Alpine with the River window manager. It's called Riverrun because that is the name I gave the script that initializes everything.
-Currently it is still a mess that can barely be understood by anyone save myself, apologies for that.
+Notes for setting up Alpine Linux with the River window compositor, work in progress
 
 ## Installation medium
 
@@ -33,8 +32,7 @@ dd if=path/to/alpine.iso of=/dev/rdiskX bs=1m status=progress
 
 ## Alpine Linux
 
-login as root (no password set)
-Connect to LAN
+Login as root (no password set)
 
 <https://docs.alpinelinux.org/user-handbook/0.1a/Installing/manual.html>
 
@@ -51,10 +49,11 @@ Connect to LAN
 127.0.0.1 localhost.localdomain localhost alpine.localdomain alpine201
 ::1       localhost.localdomain localhost alpine.localdomain alpine201
 ```
+
 ```sh
 rc-service hostname restart
 
-setup-interfaces -a
+setup-interfaces
 rc-service networking start
 rc-update add networking boot
 
@@ -636,7 +635,8 @@ doas nvim /etc/security/faillock.conf
 
 man pages
 
-    doas apk add mandoc man-pages mandoc-apropos docs
+    apk add mandoc man-pages mandoc-apropos docs
+    apk add coreutils-doc man-pages-posix
 
 zsh
 
@@ -670,6 +670,7 @@ wine
 ```
 
 E-mail: aerc
+todo replace with mutt
 
 ```sh
 apk add aerc
@@ -705,6 +706,29 @@ More information on <https://support.mozilla.org/en-US/kb/profiles-where-firefox
 Adblock add-on
 Edit start page
 Edit menu bar
+
+#### Password manager
+
+apk add pinentry-gtk
+
+todo there should be a better pinentry solution
+copy ~/.gnupg/gpg-agent.conf
+
+gpg --generate-key-full
+
+https://www.passwordstore.org/
+
+apk add pass
+pass init <e-mail>
+
+
+Firefox extension passff
+
+apk add passff-host
+
+iOS App pass
+
+
 
 #### Tex
 
