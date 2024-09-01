@@ -4,6 +4,7 @@ Alpine Linux and River setup
 
 Notes for setting up Alpine Linux with the River window compositor, work in progress
 
+
 ## Installation medium
 
 Download extended version of Alpine Linux for your architecture at <https://alpinelinux.org/downloads/>
@@ -32,7 +33,9 @@ diskutil unmountDisk /dev/diskX
 dd if=path/to/alpine.iso of=/dev/rdiskX bs=1m status=progress
 ```
 
-## Alpine Linux
+## Alpine Linux Installation
+
+Note that the partitioning step currently requires to reboot several times which means that all configuration is lost. Until this issue is resolved it is a good idea to skip setup steps that are not stricly necessary to avoid having to repeat steps frequently.
 
 Login as root (no password set)
 
@@ -62,11 +65,110 @@ rc-service hostname restart
 
 ### Networking
 
+Netwoking can be set up with ``setup-interfaces`` either for a LAN connection or wireless with wpa_supplicant.
+
 ```sh
 setup-interfaces
 rc-service networking start
 rc-update add networking boot
 ```
+
+Advanced setup can be done once a connection has been established.
+
+```sh
+apk add openresolv
+apk add ifupdown-ng
+apk add dhcpcd
+rc-update add dhcpcd
+```
+
+copy dhcpcd config to ``/etc/dhcpcd.conf``
+
+<https://datatracker.ietf.org/doc/html/rfc2131#section-2.2>
+
+#### Wi-Fi
+
+When you need to configure wlan with `iwd` you first have to use wpa_supplicant because iwd is not included. Also remember to remove its service and to delete the old configuration in `/etc/wpa_supplicant` after installing iwd.
+
+```
+rc-update del wpa_supplicant boot
+```
+
+```sh
+apk add dbus iwd
+rc-service dbus start
+rc-update add dbus boot
+rc-service iwd start
+rc-update add iwd default
+```
+
+<https://wiki.alpinelinux.org/wiki/Iwd>
+
+```sh
+iwctl
+
+device list
+device <device> set-property Powered on
+adapter <adapter> set-property Powered on
+station <device> scan
+station <device> get-networks
+station <device> connect <SSID>
+station list
+```
+
+Troubleshooting
+
+```sh
+apk add pciutils
+lspci -k # list devices
+ip link # list interfaces
+dmesg | grep ipw2200
+```
+
+lspci -k should list your wifi interface and a kernel driver for it below
+
+#### IBM Thinkpad x40
+
+https://wiki.archlinux.org/title/Network_configuration/Wireless
+https://wireless.wiki.kernel.org/en/users/drivers
+https://wireless.wiki.kernel.org/en/users/drivers/ipw2200
+
+it seems that the driver is not loaded correctly, solution:
+
+https://gitlab.alpinelinux.org/alpine/aports/-/issues/8873
+
+    curl -L -o /lib/firmware/ipw2200-bss.fw 'https://github.com/Jolicloud/linux-firmware/blob/master/ipw2200-bss.fw?raw=true'
+
+ipw2200 does not work together with `iwd` or `iw` and can be configured with `wireless-tools` instead:
+
+    apk add wireless-tools
+    iwconfig eth1
+    iwconfig eth1 power on # power saving setting
+    iwlist eth1 scan
+    iwconfig eth1 essid <your_essid> key s:<your_key>
+
+iwd gui: <https://github.com/pythops/impala>
+
+``/etc/network/interfaces``
+
+```text
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet dhcp
+
+auto wlan0
+iface wlan0 inet dhcp
+```
+
+Relogin
+
+Network configurations can be found under ``/var/lib/iwd`` and certificates should be stored in ``/usr/local/share/ca-certificates``
+
+An example configuration for setting up eduroam with iwd can be found in `/eduroam-iwd`, more on this in the Arch wiki
+
+### Time
 
 ```sh
 apk add tzdata
@@ -207,99 +309,6 @@ apk upgrade --available
 ```sh
 apk add gcompat
 ```
-
-### Networking
-
-```sh
-apk add openresolv
-apk add ifupdown-ng
-apk add dhcpcd
-rc-update add dhcpcd
-```
-
-copy dhcpcd config to ``/etc/dhcpcd.conf``
-
-<https://datatracker.ietf.org/doc/html/rfc2131#section-2.2>
-
-#### Wi-Fi
-
-When you need to configure wlan you first have to use wpa_supplicant because iwd is not included. Also remember to remove its service and to delete the old configuration in `/etc/wpa_supplicant` after installing iwd.
-
-```
-rc-update del wpa_supplicant boot
-```
-
-```sh
-apk add dbus iwd
-rc-service dbus start
-rc-update add dbus boot
-rc-service iwd start
-rc-update add iwd default
-```
-
-<https://wiki.alpinelinux.org/wiki/Iwd>
-
-```sh
-iwctl
-
-device list
-device <device> set-property Powered on
-adapter <adapter> set-property Powered on
-station <device> scan
-station <device> get-networks
-station <device> connect <SSID>
-station list
-```
-
-Troubleshooting
-
-```sh
-apk add pciutils
-lspci -k # list devices
-ip link # list interfaces
-dmesg | grep ipw2200
-```
-
-lspci -k should list your wifi interface and a kernel driver for it below
-
-IBM Thinkpad x40:
-
-https://wiki.archlinux.org/title/Network_configuration/Wireless
-https://wireless.wiki.kernel.org/en/users/drivers
-https://wireless.wiki.kernel.org/en/users/drivers/ipw2200
-
-it seems that the driver is not loaded correctly, solution:
-
-https://gitlab.alpinelinux.org/alpine/aports/-/issues/8873
-
-    curl -L -o /lib/firmware/ipw2200-bss.fw 'https://github.com/Jolicloud/linux-firmware/blob/master/ipw2200-bss.fw?raw=true'
-
-ipw2200 does not work together with iwd or iw and can be configured with wireless-tools instead:
-
-    apk add wireless-tools
-    iwconfig eth1
-    iwconfig eth1 power on # power saving setting
-    iwlist eth1 scan
-    iwconfig eth1 essid <your_essid> key s:<your_key>
-
-iwd gui: <https://github.com/pythops/impala>
-
-``/etc/network/interfaces``
-
-```text
-auto lo
-iface lo inet loopback
-
-auto eth0
-iface eth0 inet dhcp
-
-auto wlan0
-iface wlan0 inet dhcp
-```
-
-Relogin
-
-Network configurations can be found under ``/var/lib/iwd`` and certificates should be stored in ``/usr/local/share/ca-certificates``
 
 ### Fonts
 
