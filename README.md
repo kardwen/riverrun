@@ -10,17 +10,19 @@ Download extended version of Alpine Linux for your architecture at <https://alpi
 
 <https://docs.alpinelinux.org/user-handbook/0.1a/Installing/setup_alpine.html>
 
-Windows
+### Windows
 
-[USBWriter](https://sourceforge.net/projects/usbwriter/) if you can't mount it under Windows use ``diskpart`` to wipe it (if diskpart complains, boot a Linux live distro and use fdisk or try another proprietary partition manager for Windows)
+[USBWriter](https://sourceforge.net/projects/usbwriter/)
 
-Linux
+If you can't mount it under Windows use ``diskpart`` to wipe it (if diskpart complains, boot a Linux live distro and use fdisk or try a proprietary partition manager for Windows)
+
+### Linux
 
 ```sh
 dd bs=4M if=path/to/alpine.iso of=/dev/disk/by-id/usb-My_flash_drive conv=fsync oflag=direct status=progress
 ```
 
-MacOS
+### MacOS
 
 <https://wiki.archlinux.org/title/USB_flash_installation_medium#In_macOS_2>
 
@@ -36,12 +38,16 @@ Login as root (no password set)
 
 <https://docs.alpinelinux.org/user-handbook/0.1a/Installing/manual.html>
 
+### Keyboard layout
+
 ```sh
     setup-keymap ch ch
 
     setup-hostname alpine201
     vi /etc/hosts
 ```
+
+### Set hostname
 
 ``/etc/hosts``
 
@@ -52,11 +58,17 @@ Login as root (no password set)
 
 ```sh
 rc-service hostname restart
+```
 
+### Networking
+
+```sh
 setup-interfaces
 rc-service networking start
 rc-update add networking boot
+```
 
+```sh
 apk add tzdata
 install -Dm 0644 /usr/share/zoneinfo/Europe/Berlin /etc/zoneinfo/Europe/Berlin
 export TZ='Europe/Berlin'
@@ -151,7 +163,7 @@ todo uefi gpt
 adduser -h /home/felix -s /bin/ash felix
 ```
 
-Install ``doas``
+Install ``doas``, serves the same purpose as ``sudo``
 
 ```sh
 apk add doas 
@@ -159,17 +171,7 @@ vi /etc/doas.conf
 adduser felix wheel 
 ```
 
-TODO add ``/etc/doas.conf``
-
-```text
-permit persist :wheel
-
-permit nopass :wheel cmd /usr/sbin/zzz
-permit nopass :wheel cmd /sbin/poweroff
-permit nopass :wheel cmd /sbin/reboot
-
-permit nopass felix cmd zzz
-```
+Copy ``/etc/doas.conf``
 
 Disallow logging in as root via SSH:
 
@@ -215,15 +217,9 @@ apk add dhcpcd
 rc-update add dhcpcd
 ```
 
-TODO add ``/etc/dhcpcd.conf``
+copy dhcpcd config to ``/etc/dhcpcd.conf``
 
 <https://datatracker.ietf.org/doc/html/rfc2131#section-2.2>
-
-```text
-noarp
-
-background
-```
 
 #### Wi-Fi
 
@@ -431,13 +427,18 @@ copy yambar config
 
 ### Power Management
 
-    apk add acpid zzz
-    doas rc-update add acpid && doas rc-service acpid start
+```sh
+apk add acpid zzz
+rc-update add acpid
+rc-service acpid start
+```
 
 Default configuration in ``/etc/acpid/handler.sh``
 
-    apk add tlp
-    rc-update add tlp && rc-service tlp start
+```sh
+apk add tlp
+rc-update add tlp && rc-service tlp start
+```
 
 ``/etc/tlp.conf``
 
@@ -446,47 +447,54 @@ Thinkpad x201 requires ``tp-smapi``
 
 Idle management:
 
-    apk add swayidle
+```sh
+apk add swayidle
+```
 
-swayidle also needs to be configured
+todo configure swayidle
 
 ### Application launcher
 
-    apk add bemenu
+```sh
+apk add bemenu
+```
 
 ### Resolution and scale
 
-```{ash}
+```sh
 addgroup <user> audio
 ```
 
-
-```{ash}
+```sh
 apk add waylock brightnessctl
 rc-update add brightnessctl
 apk add wlr-randr
 ```
 
-Run wlr-randr to find outputs
+Run ``wlr-randr`` to find outputs
 
 ```text
 wlr-randr --output <<output>> --scale 2
 ```
 
-    apk add wlsunset
+```sh
+apk add wlsunset
+```
 
-does not work
+todo configure
 
 ### Login manager
 
 Simple login manager to automatically start River
 
-    apk add greetd
-    apk add greetd-agreety
+```sh
+apk add greetd
+apk add greetd-agreety
 
-    rc-update add greetd
+rc-update add greetd
 
-    doas nvim /etc/greetd/config.toml
+doas nvim /etc/greetd/config.toml
+```
 
 <https://man.sr.ht/~kennylevinsen/greetd/#how-to-set-xdg_session_typewayland>
 
@@ -511,7 +519,9 @@ TODO add configuration
 
 filesystem support
 
-    apk add btrfs-progs dosfstools exfatprogs ntfs-3g
+```sh
+apk add btrfs-progs dosfstools exfatprogs ntfs-3g
+```
 
 ### Audio
 
@@ -534,18 +544,22 @@ Get superd services from <https://git.sr.ht/~whynothugo/superd-services> and cop
 
 Started in riverrun
 
-    wpctl status
+```sh
+wpctl status
+```
 
 Realtime sheduling
 
-    apk add rtkit
-    addgroup <user> rtkit
+```sh
+apk add rtkit
+addgroup <user> rtkit
+```
 
 #### Notes
 
-```bash
-sudo pacman -Sy pamixer # command line audio mixer
-sudo pacman -Sy playerctl
+```sh
+apk add pamixer # command line audio mixer
+apk add playerctl
 ```
 
 ```bash
@@ -562,30 +576,30 @@ echo options snd-hda-intel model=mb31 > /etc/modprobe.d/sound.conf
 
 Easy Effects
 
-```bash
-pacman -Sy easyeffects lsp-plugins
+```sh
+apk add easyeffects lsp-plugins
 ```
 
 -> Settings -> Dark mode
 
 Download plugins from <https://github.com/wwmm/easyeffects/wiki/Community-Presets>
 
-```bash
+```sh
 curl -O --output-dir ~/.config/easyeffects/output/ "https://raw.githubusercontent.com/Digitalone1/EasyEffects-Presets/master/LoudnessEqualizer.json"
 ```
 
 ### System Monitoring
 
 ```sh
-    apk add htop
+apk add htop
 
-    apk add lm-sensors lm-sensors-sensord lm-sensors-detect
+apk add lm-sensors lm-sensors-sensord lm-sensors-detect
 
-    apk add i2c_tools
-    doas modprobe i2c_dev
-    doas i2cdetect -l
+apk add i2c_tools
+doas modprobe i2c_dev
+doas i2cdetect -l
 
-    doas sensors-detect
+doas sensors-detect
 ```
 
 It is strongly advised to accept default answers when running ``sensors-detect``.
@@ -627,20 +641,25 @@ apk add neovim
 ```
 
 change deny configuration
+
 ```sh
 doas nvim /etc/security/faillock.conf
 ```
 
 <https://gnulinux.ch/alpine-linux-als-desktop>
 
-man pages
+### Add man pages
 
-    apk add mandoc man-pages mandoc-apropos docs
-    apk add coreutils-doc man-pages-posix
+```sh
+apk add mandoc man-pages mandoc-apropos docs
+apk add coreutils-doc man-pages-posix
+```
 
 zsh
 
-    apk add bash zsh
+```zsh
+apk add bash zsh
+```
 
 TODO
 
@@ -709,38 +728,47 @@ Edit menu bar
 
 #### Password manager
 
+```sh
 apk add pinentry-gtk
+```
 
 todo there should be a better pinentry solution
 copy ~/.gnupg/gpg-agent.conf
 
+```sh
 gpg --generate-key-full
+```
 
 https://www.passwordstore.org/
 
+```sh
 apk add pass
 pass init <e-mail>
-
+```
 
 Firefox extension passff
 
+```sh
 apk add passff-host
+```
 
 iOS App pass
 
-
-
 #### Tex
 
+```sh
 apk add texlive-full
 apk add biber
+```sh
 
 ### git
 
-    apk add git tig
+```sh
+apk add git tig
 
-    git config --global user.name <name>
-    git config --global user.email <e-mail>
+git config --global user.name <name>
+git config --global user.email <e-mail>
+```
 
 https://docs.github.com/en/authentication/connecting-to-github-with-ssh/checking-for-existing-ssh-keys
 
@@ -750,7 +778,9 @@ https://docs.github.com/en/authentication/connecting-to-github-with-ssh/checking
 
 like VS Code, but installing plugins is more complicated
 
-    apk add code-oss
+```sh
+apk add code-oss
+```
 
 #### Misc
 
@@ -762,18 +792,39 @@ apk add chromium
 apk add cava
 ```
 
-p7zip
-
-```bash
-sudo pacman -Sy vlc
-```
-
 Image viewer:
 ristretto or imv
 
-```bash
-sudo pacman -Sy xdg-desktop-prtal xdg-desktop-prtal-gtk xdg-desktop-portal-wlr
+```sh
+apk add xdg-desktop-portal xdg-desktop-portal-gtk xdg-desktop-portal-wlr
 ```
+
+### Flatpak
+
+<https://wiki.alpinelinux.org/wiki/Flatpak> with <https://flathub.org/> repository
+
+```sh
+apk add flatpak
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+```
+
+Signal Desktop Messenger
+
+<https://flathub.org/apps/org.signal.Signal>
+
+```sh
+flatpak install flathub org.signal.Signal
+```
+
+can be run with
+
+```sh
+flatpak run org.signal.Signal
+```
+
+alias `signal` defined in `~/.profile`
+
+TODO find a good solution for sourcing .profile
 
 ### Games
 
@@ -884,30 +935,3 @@ Connect in X mode (Start + X)
 
 should work out of the box
 <https://lwn.net/Articles/759188/>
-
-### Flatpak
-
-<https://wiki.alpinelinux.org/wiki/Flatpak> with <https://flathub.org/> repository
-
-```sh
-apk add flatpak
-flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-```
-
-Signal Desktop Messenger
-
-<https://flathub.org/apps/org.signal.Signal>
-
-```sh
-flatpak install flathub org.signal.Signal
-```
-
-can be run with
-
-```sh
-flatpak run org.signal.Signal
-```
-
-alias `signal` defined in `~/.profile`
-
-TODO find a good solution for sourcing .profile
