@@ -434,6 +434,11 @@ apk add yambar
 
 copy yambar config
 
+### Desktop background image
+
+    apk add wbg
+    riverctl spawn 'wbg ~/path/to/image'
+
 ### Power Management
 
 ```sh

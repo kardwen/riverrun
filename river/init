@@ -165,6 +165,9 @@ riverctl rule-add -app-id "bar" csd
 riverctl default-layout rivertile
 rivertile -view-padding 2 -outer-padding 0 &
 
+# Background image
+riverctl spawn 'wbg ~/.config/river/win7.jpg'
+
 # Set output scale TODO Find all displays
 #wlr-randr --output DP-1 --scale 2
 #wlr-randr --output Unknown-1 --scale 2
@@ -172,9 +175,9 @@ rivertile -view-padding 2 -outer-padding 0 &
 # Autostart
 riverctl spawn yambar
 
-riverctl map normal Super E spawn "thunar"
-riverctl map normal Super R spawn "bemenu-run -i -l 16 --fixed-height -W 0.4 -cf"
-riverctl map normal Super S spawn "waylock -init-color 0x000000 -input-color 0x1d2048 -fail-color 0x782033"
+riverctl map normal Super E spawn thunar
+riverctl map normal Super R spawn 'bemenu-run -i -l 16 --fixed-height -W 0.4 -cf'
+riverctl map normal Super S spawn 'waylock -init-color 0x000000 -input-color 0x1d2048 -fail-color 0x782033'
 
 riverctl input *Touchpad* tap enabled
 riverctl input *Touchpad* pointer-accel 0.25
