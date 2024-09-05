@@ -441,6 +441,8 @@ copy yambar config
 
 ### Power Management
 
+TODO setup automatic shutdown on low battery levels
+
 ```sh
 apk add acpid zzz
 rc-update add acpid
@@ -756,17 +758,21 @@ gpg --generate-key-full
 https://www.passwordstore.org/
 
 ```sh
-apk add pass
-pass init <e-mail>
+apk add pass qtpass
+pass init <email>
 ```
 
-Firefox extension passff
+Install Firefox extension passff
+<https://addons.mozilla.org/de/firefox/addon/passff/>
+<https://codeberg.org/PassFF/passff>
 
 ```sh
 apk add passff-host
 ```
 
 iOS App pass
+<https://apps.apple.com/de/app/pass-password-store/id1205820573>
+<https://github.com/mssun/passforios>
 
 #### Tex
 
