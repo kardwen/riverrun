@@ -467,7 +467,8 @@ Idle management:
 apk add swayidle
 ```
 
-todo configure swayidle
+TODO
+configure backlight dimming and standby
 
 ### Application launcher
 
@@ -828,7 +829,7 @@ apk add flatpak
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 ```
 
-Signal Desktop Messenger
+#### Signal Desktop Messenger
 
 <https://flathub.org/apps/org.signal.Signal>
 
@@ -845,6 +846,21 @@ flatpak run org.signal.Signal
 alias `signal` defined in `~/.profile`
 
 TODO find a good solution for sourcing .profile
+
+#### Firefox flathub version for playing DRM media
+
+<https://flathub.org/apps/org.mozilla.firefox>
+
+```sh
+flatpak install flathub org.mozilla.firefox
+flatpak run org.mozilla.firefox
+```
+
+<https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/?utm_source=addons.mozilla.org&utm_medium=referral&utm_content=search>
+
+Note that passff will not work with the flatpak version of firefox. Your profile can be found under `~/.var/app/org.mozilla.firefox/.mozilla/firefox`.
+
+In `about:preferences#general` check "Play DRM-controlled content"
 
 ### Games
 
