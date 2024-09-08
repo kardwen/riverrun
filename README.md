@@ -448,6 +448,17 @@ apk add mako
 notify-send -t 9000 "hello world!"  # test notifications
 ```
 
+### Screenshots
+
+<https://github.com/waycrate/wayshot>
+
+```sh
+apk add wayshot
+apk add wl-clipboard
+```
+
+Make a screenshot and copy it to the clipboard: Super + Shift + S
+
 ### Power Management
 
 TODO setup automatic shutdown on low battery levels
