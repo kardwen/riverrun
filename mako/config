@@ -1,0 +1,16 @@
+font=GoMono Nerd Font 10
+default-timeout=5000
+layer=overlay
+width=300
+height=500
+anchor=top-right
+margin=10
+
+background-color=#000000AA
+text-color=#FFFFFF
+border-color=#33CCFF
+progress-color=#458588
+
+
+[app-name="Calendar"]
+width=198

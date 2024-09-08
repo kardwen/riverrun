@@ -436,8 +436,17 @@ copy yambar config
 
 ### Desktop background image
 
-    apk add wbg
-    riverctl spawn 'wbg ~/path/to/image'
+```sh
+apk add wbg
+riverctl spawn 'wbg ~/path/to/image'
+```
+
+### Notifications
+
+```sh
+apk add mako
+notify-send -t 9000 "hello world!"  # test notifications
+```
 
 ### Power Management
 
@@ -680,9 +689,6 @@ apk add bash zsh
 
 TODO
 
-wallpaper
-notifications with mako
-
 Turn displays on and off with wlopm
 
 kanshi for creating profiles
@@ -815,6 +821,7 @@ apk add cava
 
 Image viewer:
 ristretto or imv
+shellcheck
 
 ```sh
 apk add xdg-desktop-portal xdg-desktop-portal-gtk xdg-desktop-portal-wlr

@@ -172,15 +172,20 @@ riverctl spawn 'wbg ~/.config/river/win7.jpg'
 #wlr-randr --output DP-1 --scale 2
 #wlr-randr --output Unknown-1 --scale 2
 
-# Autostart
-riverctl spawn yambar
-
 riverctl map normal Super E spawn thunar
 riverctl map normal Super R spawn 'bemenu-run -i -l 16 --fixed-height -W 0.4 -cf'
 riverctl map normal Super S spawn \
     'waylock -init-color 0x00807F -input-color 0x1d2048 -fail-color 0x782033'
 
+# Autostart
 # todo move to a better location
+
+riverctl spawn yambar
+
+# Notifications
+mako &
+
+# Idle management
 swayidle -w \
     timeout 100 'waylock -init-color 0x00807F -input-color 0x1d2048 -fail-color 0x782033' &
 
