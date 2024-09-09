@@ -138,8 +138,8 @@ do
     riverctl map $mode None XF86AudioNext  spawn 'playerctl next'
 
     # Control screen backlight brightness with brightnessctl (https://github.com/Hummer12007/brightnessctl)
-    riverctl map $mode None XF86MonBrightnessUp   spawn '~/.config/river/scripts/brightness up'
-    riverctl map $mode None XF86MonBrightnessDown spawn '~/.config/river/scripts/brightness down'
+    riverctl map $mode None XF86MonBrightnessUp   spawn "$HOME/.config/river/scripts/brightness up"
+    riverctl map $mode None XF86MonBrightnessDown spawn "$HOME/.config/river/scripts/brightness down"
 done
 
 # Set background and border color

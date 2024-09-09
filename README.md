@@ -4,6 +4,7 @@ Alpine Linux and River setup
 
 Notes for setting up Alpine Linux with the River window compositor, work in progress
 
+todo split in different branches
 
 ## Installation medium
 
@@ -258,6 +259,9 @@ todo uefi gpt
 
     apk add btrfs-progs
     modprobe btrfs
+
+
+todo Add instructions for encrypted zfs filesystem and [zfsbootmenu](https://docs.zfsbootmenu.org/en/v2.3.x/)
 
 ### Configuration
 
@@ -535,6 +539,16 @@ doas nvim /etc/greetd/config.toml
 
 <https://man.sr.ht/~kennylevinsen/greetd/#how-to-set-xdg_session_typewayland>
 
+### Fingerprint reader
+
+todo
+<https://wiki.archlinux.org/title/Fprint>
+
+```
+lsusb
+apk add fprintd
+```
+
 ### File manager
 
 Thunar and plugins
@@ -676,6 +690,8 @@ apk add linux-pam
 
 apk add neovim
 ```
+
+Run `nvim` and enter `:Tutor` for a tutorial
 
 change deny configuration
 
