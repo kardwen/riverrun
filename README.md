@@ -257,9 +257,10 @@ dd bs=440 count=1 conv=notrunc if=/usr/share/syslinux/gptmbr.bin of=/dev/sda
 
 todo uefi gpt
 
-    apk add btrfs-progs
-    modprobe btrfs
-
+```sh
+apk add btrfs-progs
+modprobe btrfs
+```
 
 todo Add instructions for encrypted zfs filesystem and [zfsbootmenu](https://docs.zfsbootmenu.org/en/v2.3.x/)
 
@@ -520,9 +521,8 @@ wlr-randr --output <<output>> --scale 2
 
 ```sh
 apk add wlsunset
+wlsunset -L 8 -l 52
 ```
-
-todo configure
 
 ### Login manager
 
@@ -693,7 +693,7 @@ apk add neovim
 
 Run `nvim` and enter `:Tutor` for a tutorial
 
-change deny configuration
+Change the maximum number of failed login attemps (deny)
 
 ```sh
 doas nvim /etc/security/faillock.conf
@@ -708,13 +708,34 @@ apk add mandoc man-pages mandoc-apropos docs
 apk add coreutils-doc man-pages-posix
 ```
 
+### Terminal emulator and alternative shell
+
 zsh
 
-```zsh
-apk add bash zsh
+```sh
+apk add zsh
+apk add alpine-zsh-config
 ```
 
-TODO
+You may also want to set zsh as default shell for alacritty:
+
+```sh
+mkdir ~/.config/alacritty
+touch ~/.config/alacritty.toml
+```
+
+Copy the alacritty configuration file.
+
+alacritty theming
+
+```sh
+mkdir -p ~/.config/alacritty/themes
+git clone https://github.com/alacritty/alacritty-theme ~/.config/alacritty/themes
+```
+
+### Other
+
+todo
 
 Turn displays on and off with wlopm
 
@@ -877,9 +898,7 @@ can be run with
 flatpak run org.signal.Signal
 ```
 
-alias `signal` defined in `~/.profile`
-
-TODO find a good solution for sourcing .profile
+alias `signal` defined in `~/.zshrc`
 
 #### Firefox flathub version for playing DRM media
 

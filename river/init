@@ -187,7 +187,7 @@ mako &
 
 # Idle management
 swayidle -w \
-    timeout 100 'waylock -init-color 0x00807F -input-color 0x1d2048 -fail-color 0x782033' &
+    timeout 6000 'waylock -init-color 0x00807F -input-color 0x1d2048 -fail-color 0x782033' &
 
 riverctl map normal Super+Shift S spawn 'wayshot --stdout | wl-copy'
 
