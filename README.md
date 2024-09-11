@@ -726,8 +726,11 @@ zsh
 ```sh
 apk add zsh
 apk add alpine-zsh-config
+apk add zsh-syntax-highlighting
 ```
 <https://zsh.sourceforge.io/Guide/zshguide02.html>
+
+Copy `.zshrc`
 
 You may also want to set zsh as default shell for alacritty:
 
