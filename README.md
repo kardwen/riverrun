@@ -613,14 +613,14 @@ apk add pamixer # command line audio mixer
 apk add playerctl
 ```
 
-```bash
+```sh
 pactl list cards
 ```
 
 Mac sound
 <https://wiki.archlinux.org/title/IMac_Aluminum#The_imac7,1_model:>
 
-```bash
+```sh
 nvim /etc/modprobe.d/sound.conf
 echo options snd-hda-intel model=mb31 > /etc/modprobe.d/sound.conf
 ```
@@ -687,9 +687,14 @@ bluetuith
 ```sh
 apk add intel-ucode
 apk add linux-pam
+```
 
+### neovim
+
+```sh
 apk add neovim
 ```
+Copy the config files for neovim, plugins can be installed with <https://github.com/folke/lazy.nvim> todo
 
 Run `nvim` and enter `:Tutor` for a tutorial
 
@@ -710,12 +715,19 @@ apk add coreutils-doc man-pages-posix
 
 ### Terminal emulator and alternative shell
 
+bash
+
+```sh
+apk add bash
+```
+
 zsh
 
 ```sh
 apk add zsh
 apk add alpine-zsh-config
 ```
+<https://zsh.sourceforge.io/Guide/zshguide02.html>
 
 You may also want to set zsh as default shell for alacritty:
 
@@ -731,6 +743,12 @@ alacritty theming
 ```sh
 mkdir -p ~/.config/alacritty/themes
 git clone https://github.com/alacritty/alacritty-theme ~/.config/alacritty/themes
+```
+
+<https://wiki.alpinelinux.org/wiki/How_to_get_regular_stuff_working>
+
+```sh
+apk add coreutils
 ```
 
 ### Other
@@ -753,7 +771,6 @@ TODO configure default applications
 gimp inkscape
 p7zip
 asciiquarium
-neovim
 vlc
 libreoffice
 wine
@@ -863,7 +880,7 @@ apk add code-oss
 apk add chromium
 ```
 
-```bash
+```sh
 apk add cava
 ```
 
@@ -919,7 +936,7 @@ In `about:preferences#general` check "Play DRM-controlled content"
 
 #### Retroarch
 
-```bash
+```sh
 sudo pacman -Sy libretro-parallel-n64 libretro-bsnes
 sudo pacman -Sy retroarch retroarch-assets-xmb
 ```
@@ -928,7 +945,7 @@ Copy ``retroarch.cfg`` to ``~/.config/retroarch/retroarch.cfg```. Settings for i
 
 #### RMG N64
 
-```bash
+```sh
 sudo pacman -Sy glfw-wayland
 yay -Sy rmg
 ```
@@ -939,7 +956,7 @@ Start with ``RMG``
 
 Nvidia Tesla does not support Vulkan, therefore only Super Nintento Entertainment System games will run smoothly with Ares. ``swiftshader-git`` is an alternative software renderer.
 
-```bash
+```sh
 yay -Sy lib32-mesa
 pacman -Sy vulkan-tools
 yay -Sy vulkan-swrast
@@ -962,7 +979,7 @@ sudo chmod +x start_windows_98
 
 https://wiki.archlinux.org/title/DVB-T
 
-```bash
+```sh
 wget http://www.sundtek.de/media/sundtek_netinst.sh
 sudo sh sundtek_netinst.sh
 
@@ -983,7 +1000,7 @@ dvbtraffic
 Install Fluent theme
 <https://github.com/vinceliuice/Fluent-gtk-theme>
 
-```bash
+```sh
 git clone --depth=1 https://github.com/vinceliuice/Fluent-gtk-theme.git /tmp/Fluent_theme_tmp
 chmod +x /tmp/Fluent_theme_tmp/install.sh
 /tmp/Fluent_theme_tmp/install.sh -i apple
@@ -991,7 +1008,7 @@ chmod +x /tmp/Fluent_theme_tmp/install.sh
 
 Fluent icons
 
-```bash
+```sh
 git clone --depth=1 https://github.com/vinceliuice/Fluent-icon-theme.git /tmp/Fluent_icons_tmp
 chmod +x /tmp/Fluent_icons_tmp/install.sh
 /tmp/Fluent_icons_tmp/install.sh -a -d /usr/share/icons/ -r
