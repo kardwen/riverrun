@@ -15,3 +15,6 @@ export NVM_DIR="$HOME/.nvm"
 
 # Plugins
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# cargo (Rust)
+export PATH="$PATH:$HOME/.cargo/bin"

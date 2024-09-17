@@ -820,13 +820,13 @@ Edit menu bar
 #### Password manager
 
 ```sh
-apk add pinentry-gtk
+apk add pinentry-bemenu
 ```
 
-todo there should be a better pinentry solution
 copy ~/.gnupg/gpg-agent.conf
 
 ```sh
+gpgconf --reload gpg-agent
 gpg --generate-key-full
 ```
 
