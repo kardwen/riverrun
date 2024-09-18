@@ -295,9 +295,7 @@ ssh -l felix alpine201
 
 You can still login as root via SSH with ``su -``
 
-Add the [community repository](https://wiki.alpinelinux.org/wiki/Repositories)
-
-TODO add ``/etc/apk/repositories``
+Add the [community repository](https://wiki.alpinelinux.org/wiki/Repositories) to ``/etc/apk/repositories``
 
 ```text
 http://dl-cdn.alpinelinux.org/alpine/edge/main
