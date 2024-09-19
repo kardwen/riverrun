@@ -604,6 +604,14 @@ apk add rtkit
 addgroup <user> rtkit
 ```
 
+Audio visualizer
+
+[cava](https://github.com/karlstav/cava)
+
+```sh
+apk add cava
+```
+
 #### Notes
 
 ```sh
@@ -821,7 +829,11 @@ Edit menu bar
 apk add pinentry-bemenu
 ```
 
+Note that pinentry-bemenu currently does not adapt the bemenu configuration
+
 copy ~/.gnupg/gpg-agent.conf
+
+An alternative is [wayprompt](https://git.sr.ht/~leon_plickat/wayprompt) for which I included a configuration file with a color scheme similar to my bemenu configuration.
 
 ```sh
 gpgconf --reload gpg-agent
@@ -879,10 +891,6 @@ apk add code-oss
 
 ```sh
 apk add chromium
-```
-
-```sh
-apk add cava
 ```
 
 Image viewer:
