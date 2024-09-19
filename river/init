@@ -166,7 +166,7 @@ riverctl default-layout rivertile
 rivertile -view-padding 2 -outer-padding 0 &
 
 # Background image
-riverctl spawn 'wbg ~/.config/river/win7.jpg'
+riverctl spawn 'wbg ~/.config/river/wallpaper.jpg'
 
 # Set output scale TODO Find all displays
 #wlr-randr --output DP-1 --scale 2
