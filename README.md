@@ -167,7 +167,7 @@ Relogin
 
 Network configurations can be found under ``/var/lib/iwd`` and certificates should be stored in ``/usr/local/share/ca-certificates``
 
-An example configuration for setting up eduroam with iwd can be found in `/eduroam-iwd`, more on this in the Arch wiki
+An example configuration for setting up eduroam with iwd can be found in `./eduroam-iwd`, more on this in the Arch wiki
 
 ### Time
 
@@ -405,8 +405,7 @@ Copy example init:
 install -Dm0755 /usr/share/doc/river/examples/init -t ~/.config/river
 ```
 
-or copy ``/river/init`` and adapt it,
-you can exit river with Super+Shift+E
+You can exit river with Super+Shift+E or switch to a different tty with Strg+Alt+F1
 
 List input devices like touchpad etc:
 
@@ -421,7 +420,7 @@ Install alacritty as terminal emulator (Can be launched with ctrl + shift + ente
 apk add alacritty
 ```
 
-Copy the script for starting river to ``/usr/local/bin/riverrun``and execute it by typing ``riverrun``.
+Copy the script ``./river/init`` for starting river to ``/usr/local/bin/riverrun``and execute it by typing ``riverrun``.
 
 ### Statusbar
 
@@ -472,7 +471,7 @@ rc-update add acpid
 rc-service acpid start
 ```
 
-Default configuration in ``/etc/acpid/handler.sh``
+Default configuration is located in ``/etc/acpid/handler.sh``
 
 ```sh
 apk add tlp
@@ -786,7 +785,6 @@ wine
 ```
 
 E-mail: aerc
-todo replace with mutt
 
 ```sh
 apk add aerc
@@ -808,16 +806,7 @@ apk add zathura-pdf-mupdf
 
     apk add firefox
 
-Profile location can be found by entering about:profiles in the adress bar, usually located in ``~/.mozilla/firefox/``
-
-passwords:
-
-key4.db
-logins.json
-
-Close firefox before copying files.
-
-More information on <https://support.mozilla.org/en-US/kb/profiles-where-firefox-stores-user-data>
+Profile location can be found by entering about:profiles in the adress bar
 
 Adblock add-on
 Edit start page
@@ -843,7 +832,7 @@ gpg --generate-key-full
 https://www.passwordstore.org/
 
 ```sh
-apk add pass qtpass
+apk add pass qtpass pass-otp
 pass init <email>
 ```
 
@@ -858,6 +847,18 @@ apk add passff-host
 iOS App pass
 <https://apps.apple.com/de/app/pass-password-store/id1205820573>
 <https://github.com/mssun/passforios>
+
+#### VPN
+
+OpenConnect
+
+```sh
+apk add openconnect
+modprobe vhost-net
+doas sh -c 'printf "vhost-net\n" > /etc/modules-load.d/vhost-net.conf'
+```
+
+An example for connecting to a VPN can be found in `./scripts/uni-vpn`
 
 #### Tex
 

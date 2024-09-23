@@ -1,0 +1,10 @@
+#!/bin/sh
+VPN_SERVER="vpn.uni-muenster.de"
+
+USERNAME=$(pass web/sso.uni-muenster.de | sed -n '2p')  # Second line for the university id
+NETWORK_PASS=$(pass uni-muenster-network-access-password)
+OTP_PASS=$(pass otp web/sso.uni-muenster.de)
+
+echo "Connecting to VPN at $VPN_SERVER..."
+printf "%s\n%s\n" "$NETWORK_PASS" "$OTP_PASS" |
+    doas openconnect --protocol=anyconnect --user="$USERNAME" --passwd-on-stdin "$VPN_SERVER"

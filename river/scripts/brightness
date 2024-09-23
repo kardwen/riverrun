@@ -7,7 +7,7 @@ brightness_down () {
     low_brightness=$(echo "0.05 * $(brightnessctl max)" | bc)
     low_brightness=$(printf "%.0f" "$low_brightness")
 
-    if [ "$current_brightness" -gt 1 -a "$current_brightness" -le "$low_brightness" ]; then
+    if [ "$current_brightness" -gt 1 ] && [ "$current_brightness" -le "$low_brightness" ]; then
         brightnessctl set 1
     else
         brightnessctl set 5%-
