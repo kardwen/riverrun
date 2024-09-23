@@ -832,7 +832,7 @@ gpg --generate-key-full
 https://www.passwordstore.org/
 
 ```sh
-apk add pass qtpass pass-otp
+apk add pass qtpass
 pass init <email>
 ```
 
@@ -847,6 +847,17 @@ apk add passff-host
 iOS App pass
 <https://apps.apple.com/de/app/pass-password-store/id1205820573>
 <https://github.com/mssun/passforios>
+
+One-time-password
+
+<https://github.com/tadfisher/pass-otp>
+
+```sh
+apk add pass pass-otp
+apk add zbar
+apk add imagemagick
+zbarimg qr.png
+```
 
 #### VPN
 
