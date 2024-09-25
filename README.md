@@ -498,8 +498,10 @@ configure backlight dimming and standby
 ### Application launcher
 
 ```sh
-apk add bemenu
+apk add tofi
 ```
+
+TODO: Edit and filter .desktop entries
 
 ### Resolution and scale
 
@@ -821,15 +823,9 @@ Edit menu bar
 
 #### Password manager
 
-```sh
-apk add pinentry-bemenu
-```
+Copy ~/.gnupg/gpg-agent.conf
 
-Note that pinentry-bemenu currently does not adapt the bemenu configuration
-
-copy ~/.gnupg/gpg-agent.conf
-
-An alternative is [wayprompt](https://git.sr.ht/~leon_plickat/wayprompt) for which I included a configuration file with a color scheme similar to my bemenu configuration.
+[wayprompt](https://git.sr.ht/~leon_plickat/wayprompt), needs to be build from source, configuration file is included
 
 ```sh
 gpgconf --reload gpg-agent

@@ -173,7 +173,7 @@ riverctl spawn 'wbg ~/.config/river/wallpaper.jpg'
 #wlr-randr --output Unknown-1 --scale 2
 
 riverctl map normal Super E spawn thunar
-riverctl map normal Super R spawn 'bemenu-run --prompt Run --ignorecase --list 16 down --fixed-height --width-factor 0.3 --center --grab --no-overlap --border-radius 8'
+riverctl map normal Super R spawn 'tofi-drun | xargs riverctl spawn'
 riverctl map normal Super S spawn \
     'waylock -init-color 0x00807F -input-color 0x1d2048 -fail-color 0x782033'
 
