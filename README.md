@@ -445,9 +445,12 @@ riverctl spawn 'wbg ~/path/to/image'
 
 ### Notifications
 
+[mako](https://github.com/mpv-player/mpv) for displaying notifications, [fyi](https://codeberg.org/dnkl/fyi) for sending
+
 ```sh
 apk add mako
 notify-send -t 9000 "hello world!"  # test notifications
+apk add fyi
 ```
 
 ### Screenshots
@@ -574,16 +577,19 @@ apk add btrfs-progs dosfstools exfatprogs ntfs-3g
 ### Audio
 
 ```sh
+apk add superd
 apk add pipewire
 addgroup <user> audio
 apk add wireplumber
+apk add pipewire-pulse
 apk add pipewire-alsa
 apk add pipewire-jack
-apk add pipewire-pulse
 apk add xdg-desktop-portal-wlr
 apk add alsa-utils alsa-lib alsaconf
 apk add pamixer
-apk add superd
+apk add pavucontrol
+apk add pipewire-spa-bluez
+apk add bluez-alsa
 ```
 
 [superd](https://sr.ht/~craftyguy/superd/) is a process supervisor that can be used with openRC because openRC does not have the concept of user services.
@@ -730,6 +736,7 @@ zsh
 
 ```sh
 apk add zsh
+apk add zsh-completions
 apk add alpine-zsh-config
 apk add zsh-syntax-highlighting
 ```
