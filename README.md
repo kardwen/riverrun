@@ -6,6 +6,9 @@ Notes for setting up Alpine Linux with the River window compositor, work in prog
 
 todo split in different branches
 
+In every subdirectory is a file called `locations` that contains paths for the directory contents.
+TODO Write a script for syncing dotfiles
+
 ## Installation medium
 
 Download extended version of Alpine Linux for your architecture at <https://alpinelinux.org/downloads/>
