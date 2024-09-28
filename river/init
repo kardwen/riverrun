@@ -163,7 +163,7 @@ riverctl rule-add -app-id "bar" csd
 # Set the default layout generator to be rivertile and start it.
 # River will send the process group of the init executable SIGTERM on exit.
 riverctl default-layout rivertile
-rivertile -view-padding 2 -outer-padding 0 &
+rivertile -view-padding 0 -outer-padding 0 &
 
 # Background image
 riverctl spawn 'wbg ~/.config/river/wallpaper.jpg'
@@ -173,7 +173,7 @@ riverctl spawn 'wbg ~/.config/river/wallpaper.jpg'
 #wlr-randr --output Unknown-1 --scale 2
 
 riverctl map normal Super E spawn thunar
-riverctl map normal Super R spawn 'tofi-drun | xargs riverctl spawn'
+riverctl map normal Super R spawn 'riverctl spawn "$(tofi-drun)"'
 riverctl map normal Super S spawn \
     'waylock -init-color 0x00807F -input-color 0x1d2048 -fail-color 0x782033'
 

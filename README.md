@@ -504,7 +504,16 @@ configure backlight dimming and standby
 apk add tofi
 ```
 
+Str+R starts tofi to search for desktop entries
+
+Application entries are located in `/usr/share/applications`
 TODO: Edit and filter .desktop entries
+
+Desktop entries
+
+TODO configure default applications
+
+`~/.config/mimeapps.list`
 
 ### Resolution and scale
 
@@ -783,10 +792,6 @@ https://sr.ht/~emersion/kanshi/
 
 ### Programs
 
-TODO configure default applications
-
-`~/.config/mimeapps.list`
-
 ```sh
 gimp inkscape
 p7zip
@@ -928,6 +933,12 @@ apk add flatpak
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 ```
 
+Updating:
+
+```sh
+doas flatpak update
+```
+
 #### Signal Desktop Messenger
 
 <https://flathub.org/apps/org.signal.Signal>
@@ -958,6 +969,14 @@ flatpak run org.mozilla.firefox
 Note that passff will not work with the flatpak version of firefox. Your profile can be found under `~/.var/app/org.mozilla.firefox/.mozilla/firefox`.
 
 In `about:preferences#general` check "Play DRM-controlled content"
+
+You can edit the name displayed by the app launcher by editing the desktop entry to distinguish it from the normal Firefox version. When copied to `$XDG_DATA_HOME/applications` it will take precedence over the original Flatpak desktop entry.
+
+```sh
+mkdir ~/.local/share/applications
+cp /var/lib/flatpak/exports/share/applications/org.mozilla.firefox.desktop ~/.local/share/applications
+nvim ~/.local/share/applications/org.mozilla.firefox.desktop
+```
 
 ### Games
 
