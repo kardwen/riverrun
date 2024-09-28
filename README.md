@@ -4,10 +4,10 @@ Alpine Linux and River setup
 
 Notes for setting up Alpine Linux with the River window compositor, work in progress
 
-todo split in different branches
-
 In every subdirectory is a file called `locations` that contains paths for the directory contents.
-TODO Write a script for syncing dotfiles
+The script `sync-files` is a preliminary solution for syncing files, do **not** blindly run it.
+
+TODO split in different branches
 
 ## Installation medium
 

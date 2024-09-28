@@ -1,0 +1,94 @@
+#!/bin/sh
+set -e
+
+show_help() {
+    cat << EOF
+Usage: $0 [-n] [-h]
+Sync files based on locations files in subdirectories.
+Options:
+  -n    Perform a dry run (only show diffs)
+  -h    Display this help message
+EOF
+}
+
+DRY_RUN=false
+while getopts "nh" opt; do
+    case $opt in
+        n) DRY_RUN=true ;;
+        h) show_help; exit 0 ;;
+        *) echo "Error: Invalid option: -$OPTARG" >&2; show_help; exit 1 ;;
+    esac
+done
+
+copy_item() {
+    source="$1"
+    destination="$2"
+    rsync_cmd="rsync"
+    mkdir_cmd="mkdir -p"
+    if [ ! -w "$(dirname "$destination")" ]; then
+        echo "Elevated permissions required for $destination"
+        rsync_cmd="doas rsync"
+        mkdir_cmd="doas mkdir -p"
+    fi
+    dest_dir=$(dirname "$destination")
+    if [ ! -d "$dest_dir" ]; then
+        echo "  Creating directory: $dest_dir"
+        $mkdir_cmd "$dest_dir"
+    fi
+    echo "  Copying $source to $destination"
+    $rsync_cmd -av "$source" "$destination"
+}
+
+confirm() {
+    printf "%s [y/N] " "$1"
+    read -r response
+    case "$response" in
+        [yY][eE][sS]|[yY]) return 0 ;;
+        *) return 1 ;;
+    esac
+}
+
+main() {
+    if $DRY_RUN; then
+        echo "Starting dry run - no changes will be made"
+    else
+        echo "Starting synchronization"
+    fi
+
+    for dir in ./*/; do
+        if [ -f "${dir}locations" ]; then
+            echo "Processing ${dir%/} directory"
+            while IFS= read -r line || [ -n "$line" ]; do
+                [ -z "$line" ] && continue
+                destination=$(echo "$line" | sed "s|^~|$HOME|")
+                base_name=$(basename "$destination")
+                source="${dir}${base_name}"
+                if [ -e "$source" ]; then
+                    diff -ru "$source" "$destination" || true
+                else
+                    echo "Warning: $source does not exist, skipping..."
+                fi
+            done < "${dir}locations"
+            if ! $DRY_RUN && confirm "Proceed with copying files in ${dir%/}?"; then
+                while IFS= read -r line || [ -n "$line" ]; do
+                    [ -z "$line" ] && continue
+                    destination=$(echo "$line" | sed "s|^~|$HOME|")
+                    base_name=$(basename "$destination")
+                    source="${dir}${base_name}"
+                    if [ -e "$source" ]; then
+                        copy_item "$source" "$destination"
+                    fi
+                done < "${dir}locations"
+            fi
+            echo "------------------------"
+        fi
+    done
+
+    if $DRY_RUN; then
+        echo "Dry run completed, no changes were made."
+    else
+        echo "Syncing completed."
+    fi
+}
+
+main
