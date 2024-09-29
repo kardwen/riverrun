@@ -1,8 +1,11 @@
 # Riverrun
 
-Alpine Linux and River setup
+Alpine Linux and River setup notes
 
-Notes for setting up Alpine Linux with the River window compositor, work in progress
+## Introduction
+
+Riverrun provides a setup guide for configuring Alpine Linux with the River window compositor. 
+Mostly personal notes and some scripting, work in progress
 
 In every subdirectory is a file called `locations` that contains paths for the directory contents.
 The script `sync-files` is a preliminary solution for syncing files, do **not** blindly run it.
@@ -172,7 +175,7 @@ Network configurations can be found under ``/var/lib/iwd`` and certificates shou
 
 An example configuration for setting up eduroam with iwd can be found in `./eduroam-iwd`, more on this in the Arch wiki
 
-### Time
+### Time settings
 
 ```sh
 apk add tzdata
@@ -500,16 +503,19 @@ configure backlight dimming and standby
 
 ### Application launcher
 
+[tofi](https://github.com/philj56/tofi)
+
 ```sh
 apk add tofi
 ```
 
 Str+R starts tofi to search for desktop entries
 
-Application entries are located in `/usr/share/applications`
-TODO: Edit and filter .desktop entries
+### Desktop entries
 
-Desktop entries
+Application entries are located in `/usr/share/applications`, `/usr/local/share/applications` or `~/.local/share/applications (<https://wiki.archlinux.org/title/Desktop_entries#Application_entry>)
+
+### Default applications
 
 TODO configure default applications
 
@@ -1087,3 +1093,7 @@ Connect in X mode (Start + X)
 
 should work out of the box
 <https://lwn.net/Articles/759188/>
+
+### Printing
+
+<https://wiki.alpinelinux.org/wiki/Printer_Setup>
