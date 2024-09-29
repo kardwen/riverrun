@@ -434,13 +434,16 @@ Copy the script ``./river/init`` for starting river to ``/usr/local/bin/riverrun
 apk add yambar
 ```
 
+TODO Replace yambar
+
 <https://git.sr.ht/~justinesmithies/dotfiles>
 
-    apk add nerd-fonts-all
+```
+apk add nerd-fonts-all
+apk add font-awesome  # maybe
+```
 
-    apk add font-awesome  # maybe
-
-copy yambar config
+Copy yambar config
 
 ### Desktop background image
 
@@ -451,7 +454,7 @@ riverctl spawn 'wbg ~/path/to/image'
 
 ### Notifications
 
-[mako](https://github.com/mpv-player/mpv) for displaying notifications, [fyi](https://codeberg.org/dnkl/fyi) for sending
+[mako](https://github.com/emersion/mako) for displaying notifications, [fyi](https://codeberg.org/dnkl/fyi) for sending
 
 ```sh
 apk add mako
@@ -517,9 +520,12 @@ Application entries are located in `/usr/share/applications`, `/usr/local/share/
 
 ### Default applications
 
-TODO configure default applications
+Add `~/.config/mimeapps.list`
 
-`~/.config/mimeapps.list`
+```sh
+xdg-mime query default image/png
+xdg-open some-image.png
+```
 
 ### Resolution and scale
 
@@ -635,6 +641,12 @@ Audio visualizer
 
 ```sh
 apk add cava
+```
+
+[mpv](https://github.com/mpv-player/mpv)
+
+```sh
+apk add mpv
 ```
 
 #### Notes
@@ -798,21 +810,6 @@ https://sr.ht/~emersion/kanshi/
 
 ### Programs
 
-```sh
-gimp inkscape
-p7zip
-asciiquarium
-vlc
-libreoffice
-wine
-```
-
-E-mail: aerc
-
-```sh
-apk add aerc
-```
-
 #### PDF viewer
 
 Zathura
@@ -906,8 +903,6 @@ git config --global user.email <e-mail>
 
 https://docs.github.com/en/authentication/connecting-to-github-with-ssh/checking-for-existing-ssh-keys
 
-
-
 #### VS Code
 
 like VS Code, but installing plugins is more complicated
@@ -919,15 +914,41 @@ apk add code-oss
 #### Misc
 
 ```sh
+gimp inkscape
+p7zip
+asciiquarium
+vlc
+libreoffice
+shellcheck
+```
+
+E-mail: aerc
+
+```sh
+apk add aerc
+```
+
+```sh
 apk add chromium
 ```
 
 Image viewer:
-ristretto or imv
-shellcheck
+
+[imv](https://git.sr.ht/~exec64/imv/)
+[timg](https://github.com/hzeller/timg)
+
+```sh
+apk add imv
+apk add timg
+```
 
 ```sh
 apk add xdg-desktop-portal xdg-desktop-portal-gtk xdg-desktop-portal-wlr
+```
+
+Additional editor Mousepad
+```sh
+apk add mousepad
 ```
 
 ### Flatpak
