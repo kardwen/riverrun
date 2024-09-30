@@ -10,7 +10,7 @@ Mostly personal notes and some scripting, work in progress
 In every subdirectory is a file called `locations` that contains paths for the directory contents.
 The script `sync-files` is a preliminary solution for syncing files, do **not** blindly run it.
 
-TODO split in different branches
+TODO Split in different branches for different devices
 
 ## Installation medium
 
@@ -154,7 +154,7 @@ ipw2200 does not work together with `iwd` or `iw` and can be configured with `wi
     iwlist eth1 scan
     iwconfig eth1 essid <your_essid> key s:<your_key>
 
-iwd gui: <https://github.com/pythops/impala>
+iwd gui: [Impala](https://github.com/pythops/impala)
 
 ``/etc/network/interfaces``
 
@@ -261,14 +261,14 @@ apk add syslinux
 dd bs=440 count=1 conv=notrunc if=/usr/share/syslinux/gptmbr.bin of=/dev/sda
 ```
 
-todo uefi gpt
+TODO Add instructions for uefi gpt
 
 ```sh
 apk add btrfs-progs
 modprobe btrfs
 ```
 
-todo Add instructions for encrypted zfs filesystem and [zfsbootmenu](https://docs.zfsbootmenu.org/en/v2.3.x/)
+TODO Evaluate zfs filesystem and [zfsbootmenu](https://docs.zfsbootmenu.org/en/v2.3.x/)
 
 ### Configuration
 
@@ -328,7 +328,9 @@ apk add adwaita-icon-theme font-dejavu
 
 <https://wiki.alpinelinux.org/wiki/Fonts>
 
-### Graphic drivers (Intel Thinkpad x201s):
+### Graphic drivers
+
+#### Intel Thinkpad x201s
 
 ```sh
 apk add mesa-dri-gallium
@@ -336,39 +338,13 @@ apk add mesa-va-gallium
 apk add libva-intel-driver
 ```
 
-todo new intel graphics
-
 ```sh
 apk add mesa-dri-gallium
 apk add mesa-va-gallium
 apk add libva-media-driver
 ```
 
-### Device manager
-
-```sh
-apk add --quiet eudev udev-init-scripts udev-init-scripts-openrc
-rc-update add --quiet udev sysinit
-rc-update add --quiet udev-trigger sysinit
-rc-update add --quiet udev-settle sysinit
-rc-update add --quiet udev-postmount default
-rc-service --ifstopped udev start
-rc-service --ifstopped udev-trigger start
-rc-service --ifstopped udev-settle start
-rc-service --ifstopped udev-postmount start
-```
-
-#### USB drives
-
-mount usb drive
-
-```sh
-apk add udisks2
-udisksctl mount -b /dev/sdb1
-udisksctl unmount -b /dev/sdb1
-```
-
-TODO add rules for auto mounting and video signals
+<https://wiki.alpinelinux.org/wiki/Intel_Video>
 
 ## River
 
@@ -387,10 +363,6 @@ rc-service polkit start
 apk add mkrundir
 ```
 
-TODO replace mkrundir (in testing repository) with pam-rundir
-
-TODO
-
 ```sh
 apk add turnstile
 rc-update add turnstiled
@@ -402,8 +374,6 @@ Relogin
 ```sh
 apk add river river-doc
 ```
-
-#### Configuration
 
 Copy example init:
 
@@ -418,7 +388,6 @@ List input devices like touchpad etc:
 ```sh
 riverctl list-inputs
 ```
-
 
 Install alacritty as terminal emulator (Can be launched with ctrl + shift + enter)
 
@@ -445,7 +414,7 @@ apk add font-awesome  # maybe
 
 Copy yambar config
 
-### Desktop background image
+### Wallpaper
 
 ```sh
 apk add wbg
@@ -464,7 +433,7 @@ apk add fyi
 
 ### Screenshots
 
-<https://github.com/waycrate/wayshot>
+[wayshot](https://github.com/waycrate/wayshot)
 
 ```sh
 apk add wayshot
@@ -475,7 +444,7 @@ Make a screenshot and copy it to the clipboard: Super + Shift + S
 
 ### Power Management
 
-TODO setup automatic shutdown on low battery levels
+TODO Setup automatic shutdown on low battery levels
 
 ```sh
 apk add acpid zzz
@@ -492,8 +461,8 @@ rc-update add tlp && rc-service tlp start
 
 ``/etc/tlp.conf``
 
-Thinkpad x201 requires ``tp-smapi``
-<https://github.com/linux-thinkpad/tp_smapi> for setting charge thresholds. Not tested.
+TODO Thinkpad x201 requires ``tp-smapi``
+<https://github.com/linux-thinkpad/tp_smapi> for setting charge thresholds.
 
 Idle management:
 
@@ -501,8 +470,7 @@ Idle management:
 apk add swayidle
 ```
 
-TODO
-configure backlight dimming and standby
+TODO Configure backlight dimming and standby
 
 ### Application launcher
 
@@ -512,7 +480,7 @@ configure backlight dimming and standby
 apk add tofi
 ```
 
-Str+R starts tofi to search for desktop entries
+Str + R starts `tofi` to search for desktop entries
 
 ### Desktop entries
 
@@ -546,9 +514,26 @@ wlr-randr --output <<output>> --scale 2
 ```
 
 ```sh
+apk add wlopm kanshi
+```
+
+Turn displays on and off with wlopm
+
+kanshi for creating profiles
+
+TODO Add kanshi configurations
+
+[kanshi](https://sr.ht/~emersion/kanshi/)
+
+### Day/night screen adjustments
+
+```sh
 apk add wlsunset
 wlsunset -L 8 -l 52
+pkill -f wlsunset
 ```
+
+The alias `night` is defined for `zsh`
 
 ### Login manager
 
@@ -565,9 +550,42 @@ doas nvim /etc/greetd/config.toml
 
 <https://man.sr.ht/~kennylevinsen/greetd/#how-to-set-xdg_session_typewayland>
 
+### Device manager
+
+```sh
+apk add --quiet eudev udev-init-scripts udev-init-scripts-openrc
+rc-update add --quiet udev sysinit
+rc-update add --quiet udev-trigger sysinit
+rc-update add --quiet udev-settle sysinit
+rc-update add --quiet udev-postmount default
+rc-service --ifstopped udev start
+rc-service --ifstopped udev-trigger start
+rc-service --ifstopped udev-settle start
+rc-service --ifstopped udev-postmount start
+```
+
+TODO Add rules for auto mounting
+
+#### USB drives
+
+Mount usb drive
+
+```sh
+apk add udisks2
+udisksctl mount -b /dev/sdb1
+udisksctl unmount -b /dev/sdb1
+```
+
+### Filesystem support
+
+```sh
+apk add btrfs-progs dosfstools exfatprogs ntfs-3g
+```
+
 ### Fingerprint reader
 
-todo
+TODO Add configuration
+
 <https://wiki.archlinux.org/title/Fprint>
 
 ```
@@ -592,13 +610,7 @@ Terminal file manager
 apk add lf
 ```
 
-TODO add configuration
-
-filesystem support
-
-```sh
-apk add btrfs-progs dosfstools exfatprogs ntfs-3g
-```
+TODO Complete lf configuration
 
 ### Audio
 
@@ -668,6 +680,8 @@ nvim /etc/modprobe.d/sound.conf
 echo options snd-hda-intel model=mb31 > /etc/modprobe.d/sound.conf
 ```
 
+TODO Reevaluate for Alpine
+
 Easy Effects
 
 ```sh
@@ -725,21 +739,7 @@ bluetoothctl
 bluetuith
 ```
 
-## Notes
-
-```sh
-apk add intel-ucode
-apk add linux-pam
-```
-
-### neovim
-
-```sh
-apk add neovim
-```
-Copy the config files for neovim, plugins can be installed with <https://github.com/folke/lazy.nvim> todo
-
-Run `nvim` and enter `:Tutor` for a tutorial
+## Programs
 
 Change the maximum number of failed login attemps (deny)
 
@@ -749,7 +749,24 @@ doas nvim /etc/security/faillock.conf
 
 <https://gnulinux.ch/alpine-linux-als-desktop>
 
-### Add man pages
+```sh
+apk add intel-ucode
+apk add linux-pam
+```
+
+### Editor
+
+Neovim
+
+```sh
+apk add neovim
+```
+
+<https://github.com/folke/lazy.nvim>
+
+Run `nvim` and enter `:Tutor` for a tutorial
+
+### man pages
 
 ```sh
 apk add mandoc man-pages mandoc-apropos docs
@@ -798,19 +815,7 @@ git clone https://github.com/alacritty/alacritty-theme ~/.config/alacritty/theme
 apk add coreutils
 ```
 
-### Other
-
-todo
-
-Turn displays on and off with wlopm
-
-kanshi for creating profiles
-
-https://sr.ht/~emersion/kanshi/
-
-### Programs
-
-#### PDF viewer
+### PDF viewer
 
 Zathura
 
@@ -822,9 +827,11 @@ apk add zathura-ps
 apk add zathura-pdf-mupdf
 ```
 
-#### Firefox
+### Firefox
 
-    apk add firefox
+```sh
+apk add firefox
+```
 
 Profile location can be found by entering about:profiles in the adress bar
 
@@ -832,9 +839,9 @@ Adblock add-on
 Edit start page
 Edit menu bar
 
-#### Password manager
+### Password manager
 
-Copy ~/.gnupg/gpg-agent.conf
+Copy `~/.gnupg/gpg-agent.conf`
 
 [wayprompt](https://git.sr.ht/~leon_plickat/wayprompt), needs to be build from source, configuration file is included
 
@@ -859,8 +866,9 @@ apk add passff-host
 ```
 
 iOS App pass
-<https://apps.apple.com/de/app/pass-password-store/id1205820573>
+
 <https://github.com/mssun/passforios>
+<https://apps.apple.com/de/app/pass-password-store/id1205820573>
 
 One-time-password
 
@@ -873,7 +881,7 @@ apk add imagemagick
 zbarimg qr.png
 ```
 
-#### VPN
+### VPN
 
 OpenConnect
 
@@ -885,7 +893,7 @@ doas sh -c 'printf "vhost-net\n" > /etc/modules-load.d/vhost-net.conf'
 
 An example for connecting to a VPN can be found in `./scripts/uni-vpn`
 
-#### Tex
+### Tex
 
 ```sh
 apk add texlive-full
@@ -903,15 +911,15 @@ git config --global user.email <e-mail>
 
 https://docs.github.com/en/authentication/connecting-to-github-with-ssh/checking-for-existing-ssh-keys
 
-#### VS Code
+### VS Code
 
-like VS Code, but installing plugins is more complicated
+Code OSS, like VS Code, but installing plugins is more complicated
 
 ```sh
 apk add code-oss
 ```
 
-#### Misc
+### Misc
 
 ```sh
 gimp inkscape
@@ -1008,6 +1016,8 @@ nvim ~/.local/share/applications/org.mozilla.firefox.desktop
 
 ### Games
 
+TODO Rewrite for Alpine
+
 #### Retroarch
 
 ```sh
@@ -1037,7 +1047,7 @@ yay -Sy vulkan-swrast
 yay -Sy ares-emu
 ```
 
-#### VM
+### VM
 
 qemu
 
@@ -1049,7 +1059,41 @@ nvim start_windows_98
 
 sudo chmod +x start_windows_98
 
+### XFCE themes
+
+TODO Rewrite for Alpine and River
+
+Fluent theme
+<https://github.com/vinceliuice/Fluent-gtk-theme>
+
+Fluent icons
+<https://github.com/vinceliuice/Fluent-icon-theme.git>
+
+## Devices
+
+TODO Rewrite for Alpine
+
+### Controller
+
+```sh
+yay -Sy game-devices-udev
+```
+
+8bitDo SN30 Pro
+Connect in X mode (Start + X)
+
+### Apple Remote (IR)
+
+should work out of the box
+<https://lwn.net/Articles/759188/>
+
+#### Printing
+
+<https://wiki.alpinelinux.org/wiki/Printer_Setup>
+
 ### TV
+
+TODO Rewrite for Alpine
 
 https://wiki.archlinux.org/title/DVB-T
 
@@ -1069,26 +1113,7 @@ vlc dvb.xspf
 dvbtraffic
 ```
 
-### XFCE themes
-
-Install Fluent theme
-<https://github.com/vinceliuice/Fluent-gtk-theme>
-
-```sh
-git clone --depth=1 https://github.com/vinceliuice/Fluent-gtk-theme.git /tmp/Fluent_theme_tmp
-chmod +x /tmp/Fluent_theme_tmp/install.sh
-/tmp/Fluent_theme_tmp/install.sh -i apple
-```
-
-Fluent icons
-
-```sh
-git clone --depth=1 https://github.com/vinceliuice/Fluent-icon-theme.git /tmp/Fluent_icons_tmp
-chmod +x /tmp/Fluent_icons_tmp/install.sh
-/tmp/Fluent_icons_tmp/install.sh -a -d /usr/share/icons/ -r
-```
-
-### Services
+## Tips and tricks
 
 <https://docs.alpinelinux.org/user-handbook/0.1a/Working/openrc.html>
 
@@ -1096,26 +1121,8 @@ chmod +x /tmp/Fluent_icons_tmp/install.sh
 rc-update show -v
 ```
 
+```sh
 apk add libinput
 libinput list-devices
 riverctl list-inputs
-
-### Devices
-
-#### Controller
-
-```sh
-yay -Sy game-devices-udev
 ```
-
-8bitDo SN30 Pro
-Connect in X mode (Start + X)
-
-#### Apple Remote (IR)
-
-should work out of the box
-<https://lwn.net/Articles/759188/>
-
-### Printing
-
-<https://wiki.alpinelinux.org/wiki/Printer_Setup>
