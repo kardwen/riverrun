@@ -926,6 +926,7 @@ E-mail: aerc
 
 ```sh
 apk add aerc
+apk add w3m dante
 ```
 
 ```sh
