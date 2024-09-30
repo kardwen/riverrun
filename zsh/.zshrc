@@ -35,6 +35,11 @@ bindkey -s '^o' 'lfcd\n'
 # zsh plugins
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
+# Prompt theme
+autoload -Uz promptinit
+promptinit
+prompt fire red magenta blue white white white
+
 # coreutils color mappings
 eval $(dircolors -p | perl -pe 's/^((CAP|S[ET]|O[TR]|M|E)\w+).*/$1 00/' | dircolors -)
 alias ls='ls --color=auto'
