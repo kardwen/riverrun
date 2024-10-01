@@ -48,7 +48,7 @@ alias ls='ls --color=auto'
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 
-# cargo (Rust)
+# Rust
 export PATH="$PATH:$HOME/.cargo/bin"
 
 # aliases
@@ -57,4 +57,6 @@ alias drm='flatpak run org.mozilla.firefox > /dev/null &!'
 
 alias firefox='firefox -p felix &!'
 alias night='wlsunset -L 8 -l 52 &!'
+alias day='pkill -f wlsunset'
 alias v='nvim'
+alias c='clear'
