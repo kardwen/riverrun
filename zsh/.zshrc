@@ -1,9 +1,9 @@
 # vi mode
 bindkey -v
-
-# vi mode cursor
 setopt vi
 KEYTIMEOUT=1
+
+# vi mode cursor fix
 zle-keymap-select () {
     if [[ $KEYMAP == vicmd ]]; then
         echo -ne "\e[2 q"
@@ -32,7 +32,7 @@ lfcd () {
 }
 bindkey -s '^o' 'lfcd\n'
 
-# zsh plugins
+# Plugins
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Prompt theme
@@ -40,10 +40,10 @@ autoload -Uz promptinit
 promptinit
 prompt fire red magenta blue white white white
 
-# coreutils color mappings
+# Coreutils color mappings
 eval $(dircolors -p | perl -pe 's/^((CAP|S[ET]|O[TR]|M|E)\w+).*/$1 00/' | dircolors -)
-alias ls='ls --color=auto'
 
+# Environment variables
 # NVM
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -51,12 +51,14 @@ export NVM_DIR="$HOME/.nvm"
 # Rust
 export PATH="$PATH:$HOME/.cargo/bin"
 
-# aliases
-alias signal='flatpak run org.signal.Signal > /dev/null &!'
-alias drm='flatpak run org.mozilla.firefox > /dev/null &!'
+# XDG directory for user-specific executables
+export PATH=$PATH:$HOME/.local/bin
 
+# Aliases
+alias ls='ls --color=auto'
 alias firefox='firefox -p felix &!'
 alias night='wlsunset -L 8 -l 52 &!'
 alias day='pkill -f wlsunset'
 alias v='nvim'
 alias c='clear'
+alias g='git'
