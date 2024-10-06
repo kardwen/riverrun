@@ -381,6 +381,7 @@ Copy example init:
 install -Dm0755 /usr/share/doc/river/examples/init -t ~/.config/river
 ```
 
+You can also find my init script under `./river/init`, note that it uses a german keyboard layout and remaps Caps Lock to Esc.
 You can exit river with Super+Shift+E or switch to a different tty with Strg+Alt+F1
 
 List input devices like touchpad etc:
@@ -395,7 +396,7 @@ Install alacritty as terminal emulator (Can be launched with ctrl + shift + ente
 apk add alacritty
 ```
 
-Copy the script ``./river/init`` for starting river to ``/usr/local/bin/riverrun``and execute it by typing ``riverrun``.
+Copy the script under ``./riverrun/riverrun`` for starting river to ``/usr/local/bin/riverrun``and execute it by typing ``riverrun``.
 
 ### Statusbar
 
