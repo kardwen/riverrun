@@ -661,6 +661,15 @@ apk add cava
 apk add mpv
 ```
 
+### Keymaps
+
+The keyboard layout is set with `riverctl` in the River init file. For debugging `xkbcli` is a useful tool.
+
+```sh
+apk add xkbcli
+xkbcli interactive-wayland
+```
+
 #### Notes
 
 ```sh
@@ -903,7 +912,7 @@ apk add biber
 ### git
 
 ```sh
-apk add git tig
+apk add git lazygit tig
 
 git config --global user.name <name>
 git config --global user.email <e-mail>

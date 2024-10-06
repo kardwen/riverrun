@@ -57,8 +57,9 @@ export PATH=$PATH:$HOME/.local/bin
 # Aliases
 alias ls='ls --color=auto'
 alias firefox='firefox -p felix &!'
-alias night='wlsunset -L 8 -l 52 &!'
+alias night='pkill -f wlsunset; wlsunset -L 8 -l 52 &> /dev/null &!'
 alias day='pkill -f wlsunset'
 alias v='nvim'
 alias c='clear'
 alias g='git'
+alias lg='lazygit'
