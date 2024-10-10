@@ -511,7 +511,7 @@ apk add wlr-randr
 Run ``wlr-randr`` to find outputs
 
 ```text
-wlr-randr --output <<output>> --scale 2
+wlr-randr --output <output> --on --preferred --scale 1
 ```
 
 ```sh
@@ -535,6 +535,16 @@ pkill -f wlsunset
 ```
 
 The alias `night` is defined for `zsh`
+
+Dark mode switching
+
+```sh
+gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
+gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+
+gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita'
+gsettings set org.gnome.desktop.interface color-scheme 'default'
+```
 
 ### Login manager
 
@@ -566,6 +576,10 @@ rc-service --ifstopped udev-postmount start
 ```
 
 TODO Add rules for auto mounting
+
+### Thunderbolt
+
+<https://wiki.archlinux.org/title/Thunderbolt#Automatically_connect_any_device>
 
 #### USB drives
 
