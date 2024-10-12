@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=aerc
+GenericName=Email Client
+Comment=A terminal email client
+Exec=alacritty -e aerc
+Categories=Office;Network;ConsoleOnly;
+Terminal=true
+Keywords=mail;e-mail;
