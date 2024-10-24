@@ -44,6 +44,7 @@ prompt fire red magenta blue white white white
 eval $(dircolors -p | perl -pe 's/^((CAP|S[ET]|O[TR]|M|E)\w+).*/$1 00/' | dircolors -)
 
 # Environment variables
+
 # NVM
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -53,6 +54,8 @@ export PATH="$PATH:$HOME/.cargo/bin"
 
 # XDG directory for user-specific executables
 export PATH=$PATH:$HOME/.local/bin
+
+export GPG_TTY=$(tty)
 
 # Aliases
 alias ls='ls --color=auto'
@@ -64,5 +67,6 @@ alias c='clear'
 alias g='git'
 alias lg='lazygit'
 alias ca='cargo'
-alias rfmt='find . -name "*.rs" -type f -print0 | xargs -0 rustfmt'
 alias new='riverctl spawn "foot -D $(pwd)"'
+
+wlc() { cat "$1" | wl-copy; }

@@ -381,7 +381,7 @@ Copy example init:
 install -Dm0755 /usr/share/doc/river/examples/init -t ~/.config/river
 ```
 
-You can also find my init script under `./river/init`, note that it uses a german keyboard layout and remaps Caps Lock to Esc.
+You can also find my init script under `./river/init`, note that it uses a German keyboard layout and remaps Caps Lock to Esc.
 You can exit river with Super+Shift+E or switch to a different tty with Strg+Alt+F1
 
 List input devices like touchpad etc:
@@ -390,10 +390,10 @@ List input devices like touchpad etc:
 riverctl list-inputs
 ```
 
-Install alacritty as terminal emulator (Can be launched with ctrl + shift + enter)
+Install foot as terminal emulator (Can be launched with ctrl + shift + enter)
 
 ```sh
-apk add alacritty
+apk add foot
 ```
 
 Copy the script under ``./riverrun/riverrun`` for starting river to ``/usr/local/bin/riverrun``and execute it by typing ``riverrun``.
@@ -817,21 +817,7 @@ apk add zsh-syntax-highlighting
 
 Copy `.zshrc`
 
-You may also want to set zsh as default shell for alacritty:
-
-```sh
-mkdir ~/.config/alacritty
-touch ~/.config/alacritty.toml
-```
-
-Copy the alacritty configuration file.
-
-alacritty theming
-
-```sh
-mkdir -p ~/.config/alacritty/themes
-git clone https://github.com/alacritty/alacritty-theme ~/.config/alacritty/themes
-```
+`zsh` is set as default shell for foot in its ini file.
 
 <https://wiki.alpinelinux.org/wiki/How_to_get_regular_stuff_working>
 
