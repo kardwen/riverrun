@@ -74,21 +74,20 @@ riverctl map-pointer normal Super BTN_RIGHT resize-view
 # Super + Middle Mouse Button to toggle float
 riverctl map-pointer normal Super BTN_MIDDLE toggle-float
 
-for i in $(seq 1 9)
-do
-    tags=$((1 << ($i - 1)))
+for i in $(seq 1 9); do
+  tags=$((1 << ($i - 1)))
 
-    # Super+[1-9] to focus tag [0-8]
-    riverctl map normal Super $i set-focused-tags $tags
+  # Super+[1-9] to focus tag [0-8]
+  riverctl map normal Super $i set-focused-tags $tags
 
-    # Super+Shift+[1-9] to tag focused view with tag [0-8]
-    riverctl map normal Super+Shift $i set-view-tags $tags
+  # Super+Shift+[1-9] to tag focused view with tag [0-8]
+  riverctl map normal Super+Shift $i set-view-tags $tags
 
-    # Super+Control+[1-9] to toggle focus of tag [0-8]
-    riverctl map normal Super+Control $i toggle-focused-tags $tags
+  # Super+Control+[1-9] to toggle focus of tag [0-8]
+  riverctl map normal Super+Control $i toggle-focused-tags $tags
 
-    # Super+Shift+Control+[1-9] to toggle tag [0-8] of focused view
-    riverctl map normal Super+Shift+Control $i toggle-view-tags $tags
+  # Super+Shift+Control+[1-9] to toggle tag [0-8] of focused view
+  riverctl map normal Super+Shift+Control $i toggle-view-tags $tags
 done
 
 # Super+0 to focus all tags
@@ -104,10 +103,10 @@ riverctl map normal Super Space toggle-float
 riverctl map normal Super F toggle-fullscreen
 
 # Super+{Up,Right,Down,Left} to change layout orientation
-riverctl map normal Super Up    send-layout-cmd rivertile "main-location top"
+riverctl map normal Super Up send-layout-cmd rivertile "main-location top"
 riverctl map normal Super Right send-layout-cmd rivertile "main-location right"
-riverctl map normal Super Down  send-layout-cmd rivertile "main-location bottom"
-riverctl map normal Super Left  send-layout-cmd rivertile "main-location left"
+riverctl map normal Super Down send-layout-cmd rivertile "main-location bottom"
+riverctl map normal Super Left send-layout-cmd rivertile "main-location left"
 
 # Declare a passthrough mode. This mode has only a single mapping to return to
 # normal mode. This makes it useful for testing a nested wayland compositor
@@ -121,25 +120,24 @@ riverctl map passthrough Super F11 enter-mode normal
 
 # Various media key mapping examples for both normal and locked mode which do
 # not have a modifier
-for mode in normal locked
-do
-    # Eject the optical drive (well if you still have one that is)
-    riverctl map $mode None XF86Eject spawn 'eject -T'
+for mode in normal locked; do
+  # Eject the optical drive (well if you still have one that is)
+  riverctl map $mode None XF86Eject spawn 'eject -T'
 
-    # Control pulse audio volume with pamixer (https://github.com/cdemoulins/pamixer)
-    riverctl map $mode None XF86AudioRaiseVolume  spawn 'pamixer -i 5'
-    riverctl map $mode None XF86AudioLowerVolume  spawn 'pamixer -d 5'
-    riverctl map $mode None XF86AudioMute         spawn 'pamixer --toggle-mute'
+  # Control pulse audio volume with pamixer (https://github.com/cdemoulins/pamixer)
+  riverctl map $mode None XF86AudioRaiseVolume spawn 'pamixer -i 5'
+  riverctl map $mode None XF86AudioLowerVolume spawn 'pamixer -d 5'
+  riverctl map $mode None XF86AudioMute spawn 'pamixer --toggle-mute'
 
-    # Control MPRIS aware media players with playerctl (https://github.com/altdesktop/playerctl)
-    riverctl map $mode None XF86AudioMedia spawn 'playerctl play-pause'
-    riverctl map $mode None XF86AudioPlay  spawn 'playerctl play-pause'
-    riverctl map $mode None XF86AudioPrev  spawn 'playerctl previous'
-    riverctl map $mode None XF86AudioNext  spawn 'playerctl next'
+  # Control MPRIS aware media players with playerctl (https://github.com/altdesktop/playerctl)
+  riverctl map $mode None XF86AudioMedia spawn 'playerctl play-pause'
+  riverctl map $mode None XF86AudioPlay spawn 'playerctl play-pause'
+  riverctl map $mode None XF86AudioPrev spawn 'playerctl previous'
+  riverctl map $mode None XF86AudioNext spawn 'playerctl next'
 
-    # Control screen backlight brightness with brightnessctl (https://github.com/Hummer12007/brightnessctl)
-    riverctl map $mode None XF86MonBrightnessUp   spawn "$HOME/.config/river/scripts/brightness up"
-    riverctl map $mode None XF86MonBrightnessDown spawn "$HOME/.config/river/scripts/brightness down"
+  # Control screen backlight brightness with brightnessctl (https://github.com/Hummer12007/brightnessctl)
+  riverctl map $mode None XF86MonBrightnessUp spawn "$HOME/.config/river/scripts/brightness up"
+  riverctl map $mode None XF86MonBrightnessDown spawn "$HOME/.config/river/scripts/brightness down"
 done
 
 # Set background and border color
@@ -173,9 +171,9 @@ riverctl spawn 'wbg ~/.config/river/wallpaper.jpg'
 #wlr-randr --output Unknown-1 --scale 2
 
 riverctl map normal Super E spawn thunar
-riverctl map normal Super R spawn 'riverctl spawn "$(tofi-drun)"'
+riverctl map normal Super R spawn fuzzel
 riverctl map normal Super S spawn \
-    'waylock -init-color 0x00807F -input-color 0x1d2048 -fail-color 0x782033'
+  'waylock -init-color 0x00807F -input-color 0x1d2048 -fail-color 0x782033'
 
 # Autostart
 # todo move to a better location
@@ -187,7 +185,7 @@ mako &
 
 # Idle management
 swayidle -w \
-    timeout 6000 'waylock -init-color 0x00807F -input-color 0x1d2048 -fail-color 0x782033' &
+  timeout 6000 'waylock -init-color 0x00807F -input-color 0x1d2048 -fail-color 0x782033' &
 
 riverctl map normal Super+Shift S spawn 'wayshot --stdout | wl-copy'
 

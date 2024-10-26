@@ -68,5 +68,6 @@ alias g='git'
 alias lg='lazygit'
 alias ca='cargo'
 alias new='riverctl spawn "foot -D $(pwd)"'
-
-wlc() { cat "$1" | wl-copy; }
+alias wlc=wl-copy
+alias wlp=wl-paste
+alias im=swayimg

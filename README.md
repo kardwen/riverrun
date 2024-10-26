@@ -475,13 +475,13 @@ TODO Configure backlight dimming and standby
 
 ### Application launcher
 
-[tofi](https://github.com/philj56/tofi)
+[fuzzel](https://codeberg.org/dnkl/fuzzel)
 
 ```sh
-apk add tofi
+apk add fuzzel
 ```
 
-Str + R starts `tofi` to search for desktop entries
+Str + R to search for desktop entries
 
 ### Desktop entries
 
@@ -953,11 +953,13 @@ apk add chromium
 
 Image viewer:
 
+swayimg
 [imv](https://git.sr.ht/~exec64/imv/)
 [timg](https://github.com/hzeller/timg)
 
 ```sh
 apk add imv
+apk add swayimg
 apk add timg
 ```
 
