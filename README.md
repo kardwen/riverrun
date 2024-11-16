@@ -786,8 +786,6 @@ Neovim
 apk add neovim
 ```
 
-<https://github.com/folke/lazy.nvim>
-
 Run `nvim` and enter `:Tutor` for a tutorial
 
 ### man pages
