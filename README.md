@@ -396,7 +396,7 @@ Install foot as terminal emulator (Can be launched with ctrl + shift + enter)
 apk add foot
 ```
 
-Copy the script under ``./riverrun/riverrun`` for starting river to ``/usr/local/bin/riverrun``and execute it by typing ``riverrun``.
+Copy the script ``./river/riverrun`` for running river to ``/usr/local/bin/riverrun``and execute it by typing ``riverrun``.
 
 ### Statusbar
 
@@ -552,7 +552,7 @@ Simple login manager to automatically start River
 
 ```sh
 apk add greetd
-apk add greetd-agreety
+apk add greetd-tuigreet
 
 rc-update add greetd
 
@@ -911,7 +911,7 @@ apk add biber
 ### git
 
 ```sh
-apk add git lazygit tig
+apk add git gitui tig
 
 git config --global user.name <name>
 git config --global user.email <e-mail>

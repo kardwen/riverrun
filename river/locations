@@ -1,2 +1,4 @@
 ~/.config/river/init
 ~/.config/river/scripts/
+/usr/local/bin/riverrun
+/usr/share/wayland-sessions/river.desktop
